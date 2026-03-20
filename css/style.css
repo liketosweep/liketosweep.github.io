@@ -12,9 +12,9 @@ body {
 
 /* Navbar */
 .navbar {
-  position: absolute;
-  width: 100%;
-  z-index: 10;
+  display: flex;
+  justify-content: space-between;
+  padding: 20px 50px;
 }
 
 .logo {
@@ -28,8 +28,25 @@ body {
 }
 
 .navbar a {
+  position: relative;
   color: white;
   text-decoration: none;
+}
+
+/* underline animation */
+.navbar a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -5px;
+  width: 0%;
+  height: 2px;
+  background: #4f46e5;
+  transition: 0.3s;
+}
+
+.navbar a:hover::after {
+  width: 100%;
 }
 
 /* Hero */
@@ -37,6 +54,7 @@ body {
   display: grid;
   grid-template-columns: 1fr 1fr;
   height: 100vh;
+  overflow: hidden;
 }
 
 .hero-text h1 {
@@ -73,6 +91,10 @@ body {
   background: #4f46e5;
 }
 
+.hero-image {
+  overflow: hidden;
+}
+
 .hero-image img {
   width: 100%;
   height: 100%;
@@ -81,6 +103,10 @@ body {
 
 .hero-text {
   animation: fadeIn 1.2s ease-in-out;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 80px;
 }
 @keyframes fadeIn {
   from {
@@ -91,4 +117,46 @@ body {
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+.projects {
+  padding: 120px 50px;
+  background: #111;
+}
+
+.section-title {
+  font-size: 36px;
+  margin-bottom: 40px;
+}
+
+.project-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+}
+
+.project-card {
+  background: #1a1a1a;
+  padding: 25px;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+}
+
+.project-card:hover {
+  transform: translateY(-10px) scale(1.02);
+  box-shadow: 0 15px 40px rgba(0,0,0,0.6);
+}
+
+.project-card h3 {
+  margin-bottom: 10px;
+}
+
+.project-card p {
+  color: #bbb;
+  margin-bottom: 15px;
+}
+
+.project-card a {
+  color: #4f46e5;
+  text-decoration: none;
 }

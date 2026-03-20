@@ -54,7 +54,6 @@ body {
   display: grid;
   grid-template-columns: 1fr 1fr;
   height: 100vh;
-  overflow: hidden;
 }
 
 .hero-text h1 {
@@ -92,6 +91,7 @@ body {
 }
 
 .hero-image {
+  height: 100vh;
   overflow: hidden;
 }
 
@@ -122,6 +122,9 @@ body {
 .projects {
   padding: 120px 50px;
   background: #111;
+  position: relative;
+  z-index: 1;
+  border-top: 1px solid #222;
 }
 
 .section-title {

@@ -65,6 +65,7 @@ body {
 
 /* Hero */
 .hero {
+  position: relative;
   height: 100vh;
   margin-top: 80px;
 
@@ -227,4 +228,35 @@ html {
 .contact {
   padding: 100px 80px;
   background: #111;
+}
+
+.socials {
+  position: absolute;
+  bottom: 30px;
+  left: 80px;
+
+  display: flex;
+  gap: 20px;
+}
+
+.socials a {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  font-size: 16px;  
+  opacity: 0.8;
+
+  color: white;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+.socials a:hover {
+  opacity: 1;
+  color: #4f46e5;
+}
+.socials i {
+  width: 18px;
+  height: 18px;
 }

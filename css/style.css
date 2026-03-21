@@ -75,8 +75,9 @@ body {
   padding: 0 80px;
 
   background: 
-    linear-gradient(to right, rgba(0,0,0,0.8), rgba(0,0,0,0.2)),
+    linear-gradient(to right, rgba(0,0,0,0.5), rgba(0,0,0,0.2)),
     url('../assets/images/profile.jpg') no-repeat center/cover;
+    filter: brightness(1);
 }
 
 .hero-content h3 {
@@ -201,7 +202,7 @@ html {
   background: 
     linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.4)),
     url('../assets/images/background.jpg') no-repeat center top / cover;
-    filter: brightness(1.2);
+    filter: brightness(1.5);
     min-height: 100vh;
   padding-top: 80px;
 }
@@ -272,4 +273,45 @@ html {
   padding: 100px 50px;
   background: transparent;
   margin: 0;
+}
+
+.logo {
+  position: relative;
+  cursor: pointer;
+  display: inline-block;
+}
+
+.logo::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -5px;
+  width: 0%;
+  height: 2px;
+  background: #4f46e5;
+  transition: 0.3s;
+}
+
+.logo:hover::after {
+  width: 100%;
+}
+
+.section-title {
+  position: relative;
+  display: inline-block; /* IMPORTANT */
+}
+
+.section-title::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -8px;
+  width: 0%;
+  height: 2px;
+  background: #4f46e5;
+  transition: 0.3s;
+}
+
+.section-title:hover::after {
+  width: 100%;
 }

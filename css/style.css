@@ -65,28 +65,34 @@ body {
 
 /* Hero */
 .hero {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  height: calc(100vh - 80px);
-  margin-top: 80px; 
+  height: 100vh;
+  margin-top: 80px;
+
+  display: flex;
+  align-items: center;
+
+  padding: 0 80px;
+
+  background: 
+    linear-gradient(to right, rgba(0,0,0,0.8), rgba(0,0,0,0.2)),
+    url('../assets/images/profile.jpg') no-repeat center/cover;
 }
 
-.hero-text h1 {
-  font-size: 20px;
-  letter-spacing: 2px;
+.hero-content h3 {
   color: #aaa;
+  letter-spacing: 2px;
 }
 
-.hero-text h2 {
+.hero-content h1 {
   font-size: 60px;
-  margin: 10px 0;
   font-weight: 800;
-  text-shadow: 0 0 20px rgba(255,255,255,0.1);
+  margin: 10px 0;
 }
 
-.hero-text p {
+.hero-content p {
   color: #bbb;
   max-width: 400px;
+  margin-bottom: 20px;
 }
 
 .buttons {
@@ -109,31 +115,6 @@ body {
   box-shadow: 0 10px 25px rgba(79, 70, 229, 0.4);
 }
 
-.hero-image {
-  position: relative;
-  height: 100%;
-  overflow: hidden;
-}
-
-.hero-image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  animation: fadeIn 1.2s ease;
-  transition: transform 5s ease;
-}
-
-.hero:hover .hero-image img {
-  transform: scale(1.05);
-}
-
-.hero-text {
-  animation: fadeIn 1.2s ease-in-out;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 80px 100px;
-}
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -146,7 +127,7 @@ body {
 }
 
 .projects {
-  padding: 140px 80px;
+  padding: 100px 80px 20px;
   background: #111;
   position: relative;
   z-index: 1;
@@ -218,4 +199,32 @@ html {
     rgba(0,0,0,0.4),
     rgba(0,0,0,0)
   );
+}
+
+.skills {
+  padding: 40px 80px;
+  background: #0f0f0f;
+}
+
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.skill-card {
+  background: #1a1a1a;
+  padding: 20px;
+  text-align: center;
+  border-radius: 8px;
+  transition: 0.3s;
+}
+
+.skill-card:hover {
+  background: #4f46e5;
+}
+
+.contact {
+  padding: 100px 80px;
+  background: #111;
 }

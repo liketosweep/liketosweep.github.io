@@ -129,9 +129,13 @@ body {
 
 .projects {
   padding: 100px 80px 20px;
-  background: #111;
+  background: 
+    linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.85)),
+    url('../assets/images/projects-bg.jpg') no-repeat center/cover;
+  background-attachment: fixed;
   position: relative;
   z-index: 1;
+  margin: 0;
   border-top: 1px solid #1f1f1f;
 }
 
@@ -147,7 +151,8 @@ body {
 }
 
 .project-card {
-  background: #1a1a1a;
+  background: rgba(20, 20, 20, 0.8);
+  backdrop-filter: blur(5px);
   padding: 25px;
   border-radius: 10px;
   transition: all 0.3s ease;
@@ -204,7 +209,11 @@ html {
 
 .skills {
   padding: 40px 80px;
-  background: #0f0f0f;
+  background: 
+    linear-gradient(rgba(0,0,0,0.9), rgba(0,0,0,0.9)),
+    url('../assets/images/skills-bg.jpg') no-repeat center/cover;
+  background-attachment: fixed;
+  margin: 0;
 }
 
 .skills-grid {
@@ -214,7 +223,8 @@ html {
 }
 
 .skill-card {
-  background: #1a1a1a;
+  background: rgba(20, 20, 20, 0.8);
+  backdrop-filter: blur(5px);
   padding: 20px;
   text-align: center;
   border-radius: 8px;

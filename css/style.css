@@ -8,17 +8,33 @@
 html , body{
   margin: 0;
   padding: 0;
+  width: 100%;
+  overflow-x: hidden;
 }
 @media (max-width: 768px) {
-  .container {
-    padding: 10px;
+  h1 {
+    font-size: 28px;
   }
+
+  .projects {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .project-card {
+    width: 90%;
+  }
+}
 img {
   max-width: 100%;
   height: auto;
 }
 .container {
   max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+}
+section {
   width: 100%;
 }
 body {
@@ -27,7 +43,6 @@ body {
   background-color: #0f0f0f;
   color: white;
   font-family: Arial, sans-serif;
-  overflow-x: hidden;
 }
 
 /* Navbar */
@@ -44,6 +59,8 @@ body {
   backdrop-filter: blur(8px);
   display: flex;
   justify-content: space-between;
+  display: flex;
+  flex-wrap: wrap;
   align-items: center;
 }
 
@@ -111,7 +128,7 @@ body {
 }
 
 .hero-content p {
-  font-size: 10;
+  font-size: 14px;
   color: #bbb;
   max-width: 700px;
   margin-bottom: 30px;
@@ -175,6 +192,8 @@ body {
   border-radius: 20px; /* increased */
   border: 1px solid rgba(79, 70, 229, 0.4);
   transition: all 0.3s ease;
+  width: 90%;
+  max-width: 300px;
 }
 
 .project-card::before {
@@ -252,7 +271,12 @@ html {
     min-height: 100vh;
   padding-top: 80px;
 }
-
+.projects {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
 .skills-grid {
   display: grid;
   grid-template-columns: repeat(3, 120px); /* 3 per row */
@@ -482,4 +506,61 @@ html {
 }
 .cursor-dot.hover {
   transform: translate(-50%, -50%) scale(2);
+  }
+
+@media (max-width: 768px) {
+
+  /* Fix navbar */
+  .navbar {
+    padding: 15px 20px;
+  }
+
+  /* Fix hero section */
+  .hero {
+    padding: 0 20px;
+    height: auto;
+  }
+
+  /* Fix all sections */
+  .projects,
+  .skills,
+  .about,
+  .contact {
+    padding: 60px 20px;
+  }
+
+  /* Fix hero text */
+  .hero-content h1 {
+    font-size: 32px;
+  }
+
+  .hero-content h3 {
+    font-size: 18px;
+  }
+
+  .hero-content p {
+    font-size: 14px;
+  }
+
+  /* Fix skills grid */
+  .skills-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+
+  /* Fix project cards */
+  .project-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .project-card {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  /* Fix socials position */
+  .socials {
+    left: 20px;
+    bottom: 20px;
+  }
 }

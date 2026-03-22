@@ -9,12 +9,25 @@ html , body{
   margin: 0;
   padding: 0;
 }
+@media (max-width: 768px) {
+  .container {
+    padding: 10px;
+  }
+img {
+  max-width: 100%;
+  height: auto;
+}
+.container {
+  max-width: 1200px;
+  width: 100%;
+}
 body {
   cursor: none;
   margin: 0;
   background-color: #0f0f0f;
   color: white;
   font-family: Arial, sans-serif;
+  overflow-x: hidden;
 }
 
 /* Navbar */

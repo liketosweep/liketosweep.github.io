@@ -9,7 +9,8 @@
 </head>
 
 <body>
-
+<div class="cursor-dot"></div>
+<div class="cursor-trail"></div>
   <!-- Navbar -->
   <nav class="navbar">
     <h2><a href="#home" class="logo" >liketosweep</a></h2>
@@ -17,7 +18,7 @@
       <li><a href="#home">Home</a></li>
       <li><a href="#projects">Projects</a></li>
       <li><a href="#skills">Skills</a></li>
-      <li><a href="#contact">Contact</a></li>
+      <li><a href="#contact">Me</a></li>
     </ul>
   </nav>
 
@@ -96,11 +97,18 @@
   </div>
   </div>
 </section>
-
+<section id="about" class="about">
+  <h2 class="section-title">About Me</h2>
+  <p>
+    I'm a security-focused developer exploring web vulnerabilities, system internals,
+    and real-world attack vectors. Currently focused on bug bounty and hands-on labs.
+  </p>
+</section>
 <section class="contact" id="contact">
   <h2 class="section-title">Contact</h2>
   <p>Email: ltsworkspace9239@gmail.com</p>
   <p>GitHub: github.com/liketosweep</p>
+  <p>Instagram: https://www.instagram.com/liketosweep/</p>
 </section>
 </div>
 
@@ -108,25 +116,74 @@
   <script>
   lucide.createIcons();
   </script>
-  <script>
+<script>
 const sections = document.querySelectorAll("section");
 const navLinks = document.querySelectorAll(".navbar a");
 
-window.addEventListener("scroll", () => {
-  let current = "";
-
-  sections.forEach(section => {
-    const sectionTop = section.offsetTop - 100;
-    if (scrollY >= sectionTop) {
-      current = section.getAttribute("id");
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const id = entry.target.getAttribute("id");
+      navLinks.forEach(link => {
+        link.classList.remove("active");
+        if (link.getAttribute("href") === "#" + id) {
+          link.classList.add("active");
+        }
+      });
     }
   });
+}, {
+  threshold: 0.6  // 🔥 key part
+});
+sections.forEach(section => {
+  observer.observe(section);
+});
+</script>
+<script>
+const dot = document.querySelector(".cursor-dot");
+const trail = document.querySelector(".cursor-trail");
 
-  navLinks.forEach(link => {
-    link.classList.remove("active");
-    if (link.getAttribute("href") === "#" + current) {
-      link.classList.add("active");
-    }
+let mouseX = 0;
+let mouseY = 0;
+
+let trailX = 0;
+let trailY = 0;
+
+// track mouse
+document.addEventListener("mousemove", (e) => {
+  mouseX = e.clientX;
+  mouseY = e.clientY;
+
+  // dot follows instantly
+  dot.style.left = mouseX + "px";
+  dot.style.top = mouseY + "px";
+});
+
+// smooth trail animation
+function animate() {
+  trailX += (mouseX - trailX) * 0.12;
+  trailY += (mouseY - trailY) * 0.12;
+
+  trail.style.left = trailX + "px";
+  trail.style.top = trailY + "px";
+
+  requestAnimationFrame(animate);
+}
+
+animate();
+</script>
+<script>
+const hoverElements = document.querySelectorAll("a, button, .project-card, .skill-card");
+
+hoverElements.forEach(el => {
+  el.addEventListener("mouseenter", () => {
+    trail.style.background = "radial-gradient(circle, rgba(0,255,255,0.5), transparent)";
+    dot.style.background = "#00ffff";
+  });
+
+  el.addEventListener("mouseleave", () => {
+    trail.style.background = "radial-gradient(circle, rgba(79,70,229,0.4), transparent)";
+    dot.style.background = "#ffffff";
   });
 });
 </script>

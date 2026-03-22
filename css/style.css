@@ -1,5 +1,6 @@
 * {
   margin: 0;
+    cursor: none !important;
   padding: 0;
   box-sizing: border-box;
 }
@@ -9,6 +10,7 @@ html , body{
   padding: 0;
 }
 body {
+  cursor: none;
   margin: 0;
   background-color: #0f0f0f;
   color: white;
@@ -358,10 +360,11 @@ html {
 .projects,
 .skills {
   background: transparent;
-  padding-top: 80px;
-  margin: 50px;
+  padding: 100px 50px;
+  margin: 0px;
 }
 
+.about,
 .contact {
   padding: 100px 50px;
   background: transparent;
@@ -431,4 +434,33 @@ html {
 .hero-name:hover::after {
   width: 100%;
 }
+/* main dot */
+.cursor-dot {
+  position: fixed;
+  width: 8px;
+  height: 8px;
+  background: #ffffff;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+}
 
+/* trailing glow */
+.cursor-trail {
+  position: fixed;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9998;
+
+  background: radial-gradient(circle, rgba(79,70,229,0.4), transparent);
+  filter: blur(10px);
+
+  transform: translate(-50%, -50%);
+  transition: background 0.2s ease;
+}
+.cursor-dot.hover {
+  transform: translate(-50%, -50%) scale(2);
+}

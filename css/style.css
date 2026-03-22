@@ -288,6 +288,9 @@ html {
   color: #4f46e5;
     transform: translateX(-50%) translateY(0);
 }
+.navbar a.active {
+  color: #4f46e5;
+}
 
 /* Glow border */
 .skill-card::before {

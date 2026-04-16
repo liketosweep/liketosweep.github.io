@@ -1,206 +1,1090 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>liketosweep | Portfolio</title>
-  <link rel="stylesheet" href="./css/style.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css">
-  <link rel="icon" href="assets/images/favicon.png" type="image/png">
-  <title>liketosweep | Portfolio</title>
-  <meta name="description" content="liketosweep portfolio - cybersecurity, bug bounty, projects and writeups">
-  <meta name="keywords" content="liketosweep, cybersecurity, bug bounty, portfolio, hacker">
-  <meta name="author" content="liketosweep">
-  <meta name="google-site-verification" content="a6ts-UReB08efjVZ9DeOU6sODCPsktgEp1GKG4Wehzs" />
-  <meta name="robots" content="index, follow">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>liketosweep | Security Researcher</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@300;400;500;600;700&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg: #050810;
+    --bg2: #080d18;
+    --surface: #0d1526;
+    --surface2: #111c33;
+    --accent: #00f5c4;
+    --accent2: #0af;
+    --accent3: #7b2fff;
+    --text: #c8d8f0;
+    --muted: #4a6080;
+    --border: #1a2a44;
+    --danger: #ff3c6e;
+    --mono: 'Share Tech Mono', monospace;
+    --display: 'Orbitron', sans-serif;
+    --body: 'Rajdhani', sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--body);
+    font-size: 16px;
+    line-height: 1.6;
+    cursor: none;
+    overflow-x: hidden;
+  }
+
+  /* Custom cursor */
+  #cursor {
+    position: fixed;
+    width: 12px; height: 12px;
+    background: var(--accent);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: width 0.2s, height 0.2s, opacity 0.2s;
+    mix-blend-mode: screen;
+  }
+  #cursor-ring {
+    position: fixed;
+    width: 36px; height: 36px;
+    border: 1px solid var(--accent2);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9998;
+    transform: translate(-50%, -50%);
+    transition: transform 0.08s linear, width 0.2s, height 0.2s;
+    opacity: 0.5;
+  }
+  body:has(a:hover) #cursor, body:has(button:hover) #cursor { width: 20px; height: 20px; }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--accent3); border-radius: 2px; }
+
+  /* Scanline overlay */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.06) 2px, rgba(0,0,0,0.06) 4px);
+    pointer-events: none;
+    z-index: 1000;
+  }
+
+  /* Grid background */
+  .grid-bg {
+    position: fixed; inset: 0;
+    background-image:
+      linear-gradient(rgba(0,245,196,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,245,196,0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Nav */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 500;
+    padding: 18px 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(5, 8, 16, 0.85);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(0,245,196,0.08);
+  }
+  .nav-logo {
+    font-family: var(--display);
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--accent);
+    letter-spacing: 0.2em;
+    text-decoration: none;
+  }
+  .nav-logo span { color: var(--accent3); }
+  .nav-links { display: flex; gap: 36px; list-style: none; }
+  .nav-links a {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--muted);
+    text-decoration: none;
+    letter-spacing: 0.1em;
+    transition: color 0.3s;
+    position: relative;
+  }
+  .nav-links a::before { content: '> '; color: var(--accent); opacity: 0; transition: opacity 0.3s; }
+  .nav-links a:hover { color: var(--accent); }
+  .nav-links a:hover::before { opacity: 1; }
+  .nav-status {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--accent);
+    display: flex; align-items: center; gap: 8px;
+  }
+  .pulse-dot {
+    width: 7px; height: 7px;
+    background: var(--accent);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(0,245,196,0.4); }
+    50% { opacity: 0.6; box-shadow: 0 0 0 6px rgba(0,245,196,0); }
+  }
+
+  /* Hero */
+  #home {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 120px 48px 80px;
+    z-index: 1;
+    overflow: hidden;
+  }
+  .hero-content { max-width: 760px; }
+  .hero-tag {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--accent);
+    letter-spacing: 0.15em;
+    margin-bottom: 20px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .hero-tag::before {
+    content: '';
+    display: inline-block;
+    width: 40px; height: 1px;
+    background: var(--accent);
+  }
+  .hero-name {
+    font-family: var(--display);
+    font-size: clamp(3rem, 8vw, 7rem);
+    font-weight: 900;
+    line-height: 0.95;
+    color: #fff;
+    margin-bottom: 8px;
+    position: relative;
+  }
+  .hero-name .glitch {
+    position: relative;
+    display: inline-block;
+    animation: glitch-skew 4s infinite linear alternate-reverse;
+  }
+  .hero-name .glitch::before,
+  .hero-name .glitch::after {
+    content: attr(data-text);
+    position: absolute; left: 0; top: 0;
+    width: 100%;
+  }
+  .hero-name .glitch::before {
+    color: var(--danger);
+    clip-path: polygon(0 0, 100% 0, 100% 33%, 0 33%);
+    transform: translate(-3px, 0);
+    animation: glitch-1 3.5s infinite linear alternate-reverse;
+  }
+  .hero-name .glitch::after {
+    color: var(--accent2);
+    clip-path: polygon(0 66%, 100% 66%, 100% 100%, 0 100%);
+    transform: translate(3px, 0);
+    animation: glitch-2 2.8s infinite linear alternate-reverse;
+  }
+  @keyframes glitch-1 {
+    0%,90%,100% { transform: translate(0); opacity: 0; }
+    91% { transform: translate(-4px, 1px); opacity: 0.8; }
+    93% { transform: translate(4px, -1px); opacity: 0.6; }
+    95% { transform: translate(0); opacity: 0; }
+    97% { transform: translate(-2px, 2px); opacity: 0.9; }
+  }
+  @keyframes glitch-2 {
+    0%,88%,100% { transform: translate(0); opacity: 0; }
+    89% { transform: translate(3px, -2px); opacity: 0.7; }
+    92% { transform: translate(-3px, 1px); opacity: 0.5; }
+    94% { transform: translate(0); opacity: 0; }
+  }
+  @keyframes glitch-skew {
+    0%,90%,100% { transform: skewX(0deg); }
+    91%,93% { transform: skewX(-1.5deg); }
+    92% { transform: skewX(1.5deg); }
+  }
+  .hero-role {
+    font-family: var(--mono);
+    font-size: clamp(0.85rem, 2vw, 1.1rem);
+    color: var(--accent2);
+    margin-bottom: 28px;
+    min-height: 28px;
+  }
+  #typed-text { border-right: 2px solid var(--accent2); padding-right: 4px; animation: blink 0.8s step-end infinite; }
+  @keyframes blink { 0%,100% { border-color: var(--accent2); } 50% { border-color: transparent; } }
+  .hero-desc {
+    font-size: 17px;
+    color: var(--muted);
+    max-width: 520px;
+    margin-bottom: 44px;
+    line-height: 1.7;
+    font-weight: 400;
+  }
+  .hero-desc strong { color: var(--text); font-weight: 600; }
+  .hero-btns { display: flex; gap: 16px; flex-wrap: wrap; }
+  .btn {
+    font-family: var(--mono);
+    font-size: 13px;
+    letter-spacing: 0.1em;
+    padding: 13px 32px;
+    text-decoration: none;
+    border-radius: 3px;
+    transition: all 0.3s;
+    cursor: none;
+    position: relative;
+    overflow: hidden;
+    display: inline-flex; align-items: center; gap: 10px;
+  }
+  .btn-primary {
+    background: var(--accent);
+    color: #030610;
+    font-weight: 700;
+    border: 1px solid var(--accent);
+  }
+  .btn-primary:hover {
+    background: transparent;
+    color: var(--accent);
+    box-shadow: 0 0 24px rgba(0,245,196,0.25), inset 0 0 24px rgba(0,245,196,0.05);
+  }
+  .btn-outline {
+    background: transparent;
+    color: var(--text);
+    border: 1px solid var(--border);
+  }
+  .btn-outline:hover {
+    border-color: var(--accent2);
+    color: var(--accent2);
+    box-shadow: 0 0 16px rgba(0,170,255,0.15);
+  }
+
+  /* Hero right — terminal widget */
+  .hero-terminal {
+    position: absolute;
+    right: 48px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 380px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 0 60px rgba(0,245,196,0.05), 0 24px 60px rgba(0,0,0,0.6);
+    animation: float 5s ease-in-out infinite;
+  }
+  @keyframes float { 0%,100% { transform: translateY(-50%) translateY(0); } 50% { transform: translateY(-50%) translateY(-12px); } }
+  .terminal-bar {
+    background: #0d1526;
+    padding: 10px 16px;
+    display: flex; align-items: center; gap: 8px;
+    border-bottom: 1px solid var(--border);
+  }
+  .t-dot { width: 10px; height: 10px; border-radius: 50%; }
+  .t-dot:nth-child(1) { background: #ff5f57; }
+  .t-dot:nth-child(2) { background: #ffbe2e; }
+  .t-dot:nth-child(3) { background: #29cb42; }
+  .t-title { font-family: var(--mono); font-size: 11px; color: var(--muted); margin-left: 8px; }
+  .terminal-body {
+    padding: 20px;
+    font-family: var(--mono);
+    font-size: 12px;
+    line-height: 1.9;
+    color: #6a9fb8;
+  }
+  .t-line { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 4px; }
+  .t-prompt { color: var(--accent); flex-shrink: 0; }
+  .t-cmd { color: #a8d8ea; }
+  .t-out { color: var(--muted); margin-left: 0; }
+  .t-green { color: #29cb42; }
+  .t-red { color: var(--danger); }
+  .t-yellow { color: #ffbe2e; }
+  .t-cyan { color: var(--accent); }
+  .t-blank { height: 10px; }
+  .terminal-blink { animation: blink 1s step-end infinite; display: inline-block; width: 7px; height: 13px; background: var(--accent); vertical-align: middle; }
+
+  /* Section base */
+  section { position: relative; z-index: 1; }
+  .section-inner { max-width: 1100px; margin: 0 auto; padding: 100px 48px; }
+  .section-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .section-label::after {
+    content: '';
+    flex: 1; max-width: 60px;
+    height: 1px;
+    background: linear-gradient(90deg, var(--accent), transparent);
+  }
+  .section-title {
+    font-family: var(--display);
+    font-size: clamp(1.8rem, 4vw, 2.6rem);
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 60px;
+    line-height: 1.2;
+  }
+  .section-title span { color: var(--accent); }
+
+  /* Divider line */
+  .section-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border), transparent);
+    margin: 0 48px;
+  }
+
+  /* Projects */
+  #projects { background: var(--bg2); }
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 24px;
+  }
+  .project-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+    transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+    cursor: none;
+  }
+  .project-card:hover {
+    transform: translateY(-6px);
+    border-color: var(--accent);
+    box-shadow: 0 0 30px rgba(0,245,196,0.1), 0 16px 40px rgba(0,0,0,0.5);
+  }
+  .card-header {
+    padding: 20px 24px 16px;
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; gap: 12px;
+  }
+  .card-icon {
+    width: 38px; height: 38px;
+    background: rgba(0,245,196,0.08);
+    border: 1px solid rgba(0,245,196,0.15);
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+  }
+  .card-title-group { flex: 1; }
+  .card-title {
+    font-family: var(--body);
+    font-size: 16px;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: 0.02em;
+    margin-bottom: 2px;
+  }
+  .card-lang {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+  }
+  .card-body { padding: 18px 24px 20px; }
+  .card-desc {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.6;
+    margin-bottom: 20px;
+    font-weight: 400;
+  }
+  .card-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
+  .tag {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    padding: 4px 10px;
+    border-radius: 3px;
+    border: 1px solid;
+  }
+  .tag-green { color: #29cb42; border-color: rgba(41,203,66,0.3); background: rgba(41,203,66,0.06); }
+  .tag-blue { color: var(--accent2); border-color: rgba(0,170,255,0.3); background: rgba(0,170,255,0.06); }
+  .tag-purple { color: #a78bfa; border-color: rgba(167,139,250,0.3); background: rgba(167,139,250,0.06); }
+  .tag-red { color: var(--danger); border-color: rgba(255,60,110,0.3); background: rgba(255,60,110,0.06); }
+  .tag-cyan { color: var(--accent); border-color: rgba(0,245,196,0.3); background: rgba(0,245,196,0.06); }
+  .card-link {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--accent);
+    text-decoration: none;
+    display: inline-flex; align-items: center; gap: 8px;
+    letter-spacing: 0.05em;
+    transition: gap 0.3s;
+  }
+  .card-link:hover { gap: 14px; }
+  .card-link svg { transition: transform 0.3s; }
+  .card-link:hover svg { transform: translateX(4px); }
+
+  /* Skills */
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 16px;
+  }
+  .skill-item {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 20px 20px 16px;
+    transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s;
+    cursor: none;
+  }
+  .skill-item:hover {
+    border-color: var(--accent);
+    box-shadow: 0 0 20px rgba(0,245,196,0.08);
+    transform: translateY(-4px);
+  }
+  .skill-header { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+  .skill-icon { font-size: 22px; }
+  .skill-name {
+    font-family: var(--display);
+    font-size: 13px;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: 0.08em;
+  }
+  .skill-bar-bg {
+    height: 3px;
+    background: var(--border);
+    border-radius: 2px;
+    overflow: hidden;
+    margin-bottom: 8px;
+  }
+  .skill-bar-fill {
+    height: 100%;
+    border-radius: 2px;
+    background: linear-gradient(90deg, var(--accent3), var(--accent));
+    transform-origin: left;
+    transform: scaleX(0);
+    transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .skill-item.visible .skill-bar-fill { transform: scaleX(1); }
+  .skill-level {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+    display: flex; justify-content: space-between;
+  }
+
+  /* About */
+  #about { background: var(--bg); }
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    align-items: start;
+  }
+  .about-text p {
+    font-size: 16px;
+    color: var(--muted);
+    line-height: 1.8;
+    margin-bottom: 20px;
+    font-weight: 400;
+  }
+  .about-text p strong { color: var(--text); font-weight: 600; }
+  .about-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .stat-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 24px 20px;
+    text-align: center;
+    transition: border-color 0.3s;
+  }
+  .stat-box:hover { border-color: var(--accent3); }
+  .stat-number {
+    font-family: var(--display);
+    font-size: 2.2rem;
+    font-weight: 900;
+    color: var(--accent);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+  .stat-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .highlight-box {
+    margin-top: 28px;
+    padding: 20px 24px;
+    background: rgba(0,245,196,0.04);
+    border-left: 2px solid var(--accent);
+    border-radius: 0 4px 4px 0;
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--accent);
+    line-height: 1.7;
+  }
+  .highlight-box span { color: var(--muted); }
+
+  /* Contact */
+  #contact { background: var(--bg2); }
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    align-items: start;
+  }
+  .contact-text {
+    font-size: 17px;
+    color: var(--muted);
+    line-height: 1.7;
+    margin-bottom: 40px;
+    font-weight: 400;
+  }
+  .contact-links { display: flex; flex-direction: column; gap: 16px; }
+  .contact-link {
+    display: flex; align-items: center; gap: 16px;
+    padding: 16px 20px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    text-decoration: none;
+    transition: all 0.3s;
+  }
+  .contact-link:hover {
+    border-color: var(--accent);
+    transform: translateX(6px);
+    box-shadow: 0 0 20px rgba(0,245,196,0.08);
+  }
+  .contact-link-icon {
+    width: 36px; height: 36px;
+    background: rgba(0,245,196,0.08);
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+  .contact-link-info { flex: 1; }
+  .contact-link-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 2px;
+  }
+  .contact-link-value {
+    font-size: 14px;
+    color: var(--text);
+    font-weight: 500;
+  }
+  .contact-link-arrow { color: var(--accent); font-family: var(--mono); }
+  .contact-form { display: flex; flex-direction: column; gap: 16px; }
+  .form-group { display: flex; flex-direction: column; gap: 8px; }
+  .form-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .form-input, .form-textarea {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 12px 16px;
+    color: var(--text);
+    font-family: var(--mono);
+    font-size: 13px;
+    transition: border-color 0.3s;
+    outline: none;
+    resize: none;
+  }
+  .form-input:focus, .form-textarea:focus { border-color: var(--accent); }
+  .form-textarea { min-height: 100px; }
+  .btn-send {
+    font-family: var(--mono);
+    font-size: 13px;
+    letter-spacing: 0.1em;
+    padding: 14px 32px;
+    background: var(--accent);
+    color: #030610;
+    border: none;
+    border-radius: 4px;
+    cursor: none;
+    font-weight: 700;
+    transition: all 0.3s;
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+  }
+  .btn-send:hover {
+    background: transparent;
+    color: var(--accent);
+    box-shadow: 0 0 24px rgba(0,245,196,0.25), inset 0 0 24px rgba(0,245,196,0.05);
+    border: 1px solid var(--accent);
+  }
+
+  /* Footer */
+  footer {
+    position: relative; z-index: 1;
+    padding: 32px 48px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+  }
+  footer .foot-left span { color: var(--accent); }
+  footer .foot-right { display: flex; gap: 24px; }
+  footer a { color: var(--muted); text-decoration: none; transition: color 0.2s; }
+  footer a:hover { color: var(--accent); }
+
+  /* Fade-in on scroll */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+  /* Responsive */
+  @media (max-width: 900px) {
+    nav { padding: 16px 24px; }
+    .nav-links { display: none; }
+    .hero-terminal { display: none; }
+    #home { padding: 100px 24px 60px; }
+    .section-inner { padding: 70px 24px; }
+    .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 40px; }
+    footer { padding: 24px; flex-direction: column; gap: 12px; text-align: center; }
+    .section-divider { margin: 0 24px; }
+    .hero-btns { flex-direction: column; align-items: flex-start; }
+  }
+</style>
 </head>
-
 <body>
-<div class="cursor-dot"></div>
-<div class="cursor-trail"></div>
-  <!-- Navbar -->
-  <nav class="navbar">
-    <h2><a href="#home" class="logo" >liketosweep</a></h2>
-    <ul>
-      <li><a href="#home">Home</a></li>
-      <li><a href="#projects">Projects</a></li>
-      <li><a href="#skills">Skills</a></li>
-      <li><a href="#contact">Me</a></li>
-    </ul>
-  </nav>
 
-  <!-- Hero Section -->
-  <section class="hero" id="home">
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+<div class="grid-bg"></div>
+
+<!-- NAV -->
+<nav>
+  <a href="#home" class="nav-logo">LTS<span>_</span></a>
+  <ul class="nav-links">
+    <li><a href="#home">home</a></li>
+    <li><a href="#projects">projects</a></li>
+    <li><a href="#skills">skills</a></li>
+    <li><a href="#about">about</a></li>
+    <li><a href="#contact">contact</a></li>
+  </ul>
+  <div class="nav-status">
+    <div class="pulse-dot"></div>
+    available for work
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="home">
   <div class="hero-content">
-    <h3>Hello I'm</h3>
-    <h1 class="hero-name">LIKETOSWEEP</h1>
-    <p>Security Researcher | Web Exploitation & Bug Hunting
-      Currently building skills through hands-on labs and real-world projects.</p>
-    <div class="buttons">
-      <button onclick="location.href='#projects'" >Projects</button>
-      <button onclick="window.open('https://github.com/liketosweep', '_blank')">GitHub</button>
+    <div class="hero-tag">// security researcher & bug hunter</div>
+    <div class="hero-name">
+      <div class="glitch" data-text="LIKETOSWEEP">LIKETOSWEEP</div>
+    </div>
+    <div class="hero-role"><span id="typed-text"></span></div>
+    <p class="hero-desc">
+      Security-focused developer specializing in <strong>web exploitation</strong> and <strong>vulnerability research</strong>.
+      Building through hands-on labs, real-world bug bounty hunting, and system-level exploration.
+    </p>
+    <div class="hero-btns">
+      <a href="#projects" class="btn btn-primary">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        view projects
+      </a>
+      <a href="https://github.com/liketosweep" target="_blank" class="btn btn-outline">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+        github profile
+      </a>
     </div>
   </div>
-<div class="socials">
-  <a href=" https://www.instagram.com/liketosweep/" target="_blank">
-    <i data-lucide="instagram"></i> 
-  </a>
-  <a href="https://www.linkedin.com/in/nihal-kushwaha-414ba3390/" target="_blank">
-    <i data-lucide="linkedin"></i> 
-  </a>
-</div>
-</section>
 
-<div class="content-bg">
-    <section class="projects" id="projects">
-  <h2 class="section-title">Projects</h2>
-  <div class="project-grid">
-    <div class="project-card">
-      <h3>PortSwigger Labs</h3>
-      <p>Collection of solved web security labs with detailed reports.</p>
-      <a href="https://github.com/liketosweep/Portswigger-labs" target="_blank">View Project</a>
+  <div class="hero-terminal">
+    <div class="terminal-bar">
+      <div class="t-dot"></div><div class="t-dot"></div><div class="t-dot"></div>
+      <div class="t-title">liketosweep@kali ~ recon.sh</div>
     </div>
-    <div class="project-card">
-      <h3>Web-Vulnerability Scanner</h3>
-      <p>Scans for common web-vulnerabilities providing detailed reports and potential Solutions</p>
-      <a href="https://github.com/liketosweep/web-vulnerability-scanner" target="_blank">View Project</a>
-    </div>
-    <div class="project-card">
-      <h3>Algorithm Practice</h3>
-      <p>Solutions and notes for data structures and algorithms.</p>
-      <a href="#">View Project</a>
+    <div class="terminal-body" id="terminal-body">
+      <div class="t-line"><span class="t-prompt">$</span><span class="t-cmd">whoami</span></div>
+      <div class="t-line"><span class="t-out t-cyan">liketosweep</span></div>
+      <div class="t-blank"></div>
+      <div class="t-line"><span class="t-prompt">$</span><span class="t-cmd">cat skills.txt</span></div>
+      <div class="t-line"><span class="t-out t-green">[+] Web Exploitation</span></div>
+      <div class="t-line"><span class="t-out t-green">[+] Bug Bounty Hunting</span></div>
+      <div class="t-line"><span class="t-out t-green">[+] BurpSuite &bull; Python</span></div>
+      <div class="t-line"><span class="t-out t-green">[+] Linux &bull; OWASP Top 10</span></div>
+      <div class="t-blank"></div>
+      <div class="t-line"><span class="t-prompt">$</span><span class="t-cmd">./run_scan.py --target web</span></div>
+      <div class="t-line"><span class="t-out t-yellow">[*] Scanning for vulnerabilities...</span></div>
+      <div class="t-line"><span class="t-out t-red">[!] SQLi detected at /api/users</span></div>
+      <div class="t-line"><span class="t-out t-red">[!] XSS found at /search?q=</span></div>
+      <div class="t-line"><span class="t-out t-green">[+] Report generated: report.pdf</span></div>
+      <div class="t-blank"></div>
+      <div class="t-line"><span class="t-prompt">$</span><span class="terminal-blink"></span></div>
     </div>
   </div>
 </section>
 
-<section class="projects hidden"></section>
+<div class="section-divider"></div>
 
-<section class="skills" id="skills">
-  <h2 class="section-title">Skills</h2>
-  <div class="skills-grid">
-  <div class="skill-card">
-  <i class="devicon-python-plain"></i>
-  <span class="skill-name">PYTHON</span>
-  </div>
-  <div class="skill-card">
-  <i data-lucide="server"></i>
-    <span class="skill-name">HTTP</span>
-  </div>
-  <div class="skill-card">
-  <i data-lucide="terminal"></i>
-    <span class="skill-name">LINUX</span>
-  </div>
-  <div class="skill-card">
-  <i data-lucide="git-branch"></i>
-    <span class="skill-name">GITHUB</span>
-  </div>
-  <div class="skill-card">
-  <i data-lucide="shield"></i>
-    <span class="skill-name">BURPSUITE</span>
-  </div>
-  <div class="skill-card">
-  <i data-lucide="bug"></i>
-    <span class="skill-name">SECURITY</span>
-  </div>
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-inner">
+    <div class="section-label">// 01 — projects</div>
+    <div class="section-title">What I've <span>Built</span></div>
+    <div class="projects-grid">
+
+      <div class="project-card fade-in">
+        <div class="card-header">
+          <div class="card-icon">🔬</div>
+          <div class="card-title-group">
+            <div class="card-title">PortSwigger Labs</div>
+            <div class="card-lang">OWASP · BurpSuite</div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card-desc">Comprehensive collection of solved web security labs with detailed write-ups, payloads, and documented attack methodologies.</div>
+          <div class="card-tags">
+            <span class="tag tag-red">SQLi</span>
+            <span class="tag tag-blue">XSS</span>
+            <span class="tag tag-purple">CSRF</span>
+            <span class="tag tag-cyan">SSRF</span>
+            <span class="tag tag-green">XXE</span>
+          </div>
+          <a href="https://github.com/liketosweep/Portswigger-labs" target="_blank" class="card-link">
+            view on github
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="project-card fade-in" style="transition-delay: 0.1s">
+        <div class="card-header">
+          <div class="card-icon">🛡️</div>
+          <div class="card-title-group">
+            <div class="card-title">Web Vuln Scanner</div>
+            <div class="card-lang">Python · HTTP</div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card-desc">Automated scanner that detects common web vulnerabilities and generates detailed reports with severity ratings and remediation steps.</div>
+          <div class="card-tags">
+            <span class="tag tag-cyan">Python</span>
+            <span class="tag tag-blue">HTTP</span>
+            <span class="tag tag-red">Scanning</span>
+            <span class="tag tag-purple">Reports</span>
+          </div>
+          <a href="https://github.com/liketosweep/web-vulnerability-scanner" target="_blank" class="card-link">
+            view on github
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="project-card fade-in" style="transition-delay: 0.2s">
+        <div class="card-header">
+          <div class="card-icon">⚡</div>
+          <div class="card-title-group">
+            <div class="card-title">Algorithm Practice</div>
+            <div class="card-lang">Python · DSA</div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card-desc">Solutions and annotated notes for data structures and algorithms — from sorting to graph traversal, with complexity analysis.</div>
+          <div class="card-tags">
+            <span class="tag tag-green">Python</span>
+            <span class="tag tag-blue">DSA</span>
+            <span class="tag tag-purple">Graphs</span>
+            <span class="tag tag-cyan">DP</span>
+          </div>
+          <a href="https://github.com/liketosweep" target="_blank" class="card-link">
+            view on github
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </a>
+        </div>
+      </div>
+
+    </div>
   </div>
 </section>
-<section id="about" class="about">
-  <h2 class="section-title">About Me</h2>
-  <p>
-    I'm a security-focused developer exploring web vulnerabilities, system internals,
-    and real-world attack vectors. Currently focused on bug bounty and hands-on labs.
-  </p>
+
+<div class="section-divider"></div>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-inner">
+    <div class="section-label">// 02 — skills</div>
+    <div class="section-title">My <span>Arsenal</span></div>
+    <div class="skills-grid">
+
+      <div class="skill-item fade-in">
+        <div class="skill-header">
+          <div class="skill-icon">🐍</div>
+          <div class="skill-name">PYTHON</div>
+        </div>
+        <div class="skill-bar-bg"><div class="skill-bar-fill" style="width:82%"></div></div>
+        <div class="skill-level"><span>scripting & automation</span><span>82%</span></div>
+      </div>
+
+      <div class="skill-item fade-in" style="transition-delay:0.08s">
+        <div class="skill-header">
+          <div class="skill-icon">🔍</div>
+          <div class="skill-name">BURPSUITE</div>
+        </div>
+        <div class="skill-bar-bg"><div class="skill-bar-fill" style="width:78%"></div></div>
+        <div class="skill-level"><span>intercepting & exploiting</span><span>78%</span></div>
+      </div>
+
+      <div class="skill-item fade-in" style="transition-delay:0.16s">
+        <div class="skill-header">
+          <div class="skill-icon">🌐</div>
+          <div class="skill-name">HTTP / WEB</div>
+        </div>
+        <div class="skill-bar-bg"><div class="skill-bar-fill" style="width:85%"></div></div>
+        <div class="skill-level"><span>protocols & exploitation</span><span>85%</span></div>
+      </div>
+
+      <div class="skill-item fade-in" style="transition-delay:0.24s">
+        <div class="skill-header">
+          <div class="skill-icon">🐧</div>
+          <div class="skill-name">LINUX</div>
+        </div>
+        <div class="skill-bar-bg"><div class="skill-bar-fill" style="width:75%"></div></div>
+        <div class="skill-level"><span>shell & system internals</span><span>75%</span></div>
+      </div>
+
+      <div class="skill-item fade-in" style="transition-delay:0.32s">
+        <div class="skill-header">
+          <div class="skill-icon">🛡️</div>
+          <div class="skill-name">SECURITY</div>
+        </div>
+        <div class="skill-bar-bg"><div class="skill-bar-fill" style="width:80%"></div></div>
+        <div class="skill-level"><span>offensive research</span><span>80%</span></div>
+      </div>
+
+      <div class="skill-item fade-in" style="transition-delay:0.40s">
+        <div class="skill-header">
+          <div class="skill-icon">🐙</div>
+          <div class="skill-name">GITHUB</div>
+        </div>
+        <div class="skill-bar-bg"><div class="skill-bar-fill" style="width:72%"></div></div>
+        <div class="skill-level"><span>version control</span><span>72%</span></div>
+      </div>
+
+    </div>
+  </div>
 </section>
-<section class="contact" id="contact">
-  <h2 class="section-title">Contact</h2>
-  <p>Want to collaborate or hire me?</p>
-  <a href="mailto:ltsworkspace9239@gmail.com">
-  <button>Contact Me</button>
-  </a>
-  <p>Email: ltsworkspace9239@gmail.com</p>
-  <p>GitHub: github.com/liketosweep</p>
-  <p>Instagram: https://www.instagram.com/liketosweep/</p>
+
+<div class="section-divider"></div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-inner">
+    <div class="section-label">// 03 — about me</div>
+    <div class="section-title">The <span>Operator</span></div>
+    <div class="about-grid">
+      <div class="about-text fade-in">
+        <p>
+          I'm <strong>liketosweep</strong> — a security-focused developer with a deep interest in <strong>web exploitation</strong>, system internals, and real-world attack vectors.
+        </p>
+        <p>
+          Currently focused on sharpening skills through <strong>PortSwigger labs</strong>, active <strong>bug bounty programs</strong>, and building tools that automate the recon-to-exploit pipeline.
+        </p>
+        <p>
+          When I'm not hunting bugs, I'm studying how systems break — because understanding failure is the foundation of building something resilient.
+        </p>
+        <div class="highlight-box">
+          <span>current focus: </span>OWASP Top 10 · Bug Bounty · Python tooling<br>
+          <span>learning: </span>advanced web vulns · CVE research
+        </div>
+      </div>
+      <div class="about-stats fade-in" style="transition-delay:0.15s">
+        <div class="stat-box">
+          <div class="stat-number">10+</div>
+          <div class="stat-label">Labs Solved</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-number">3+</div>
+          <div class="stat-label">Projects</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-number">6+</div>
+          <div class="stat-label">Skills</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-number">∞</div>
+          <div class="stat-label">Curiosity</div>
+        </div>
+      </div>
+    </div>
+  </div>
 </section>
-</div>
 
-  <script src="https://unpkg.com/lucide@latest"></script>
-  <script>
-  lucide.createIcons();
-  </script>
-<script>
-const sections = document.querySelectorAll("section");
-const navLinks = document.querySelectorAll(".navbar a");
+<div class="section-divider"></div>
 
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      const id = entry.target.getAttribute("id");
-      navLinks.forEach(link => {
-        link.classList.remove("active");
-        if (link.getAttribute("href") === "#" + id) {
-          link.classList.add("active");
-        }
-      });
-    }
-  });
-}, {
-  threshold: 0.6  // 🔥 key part
-});
-sections.forEach(section => {
-  observer.observe(section);
-});
-</script>
-<script>
-const dot = document.querySelector(".cursor-dot");
-const trail = document.querySelector(".cursor-trail");
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-inner">
+    <div class="section-label">// 04 — contact</div>
+    <div class="section-title">Get In <span>Touch</span></div>
+    <div class="contact-grid">
+      <div class="fade-in">
+        <p class="contact-text">
+          Open to collaborations, bug bounty teams, security projects, and interesting opportunities. Drop a message.
+        </p>
+        <div class="contact-links">
+          <a href="mailto:ltsworkspace9239@gmail.com" class="contact-link">
+            <div class="contact-link-icon">✉️</div>
+            <div class="contact-link-info">
+              <div class="contact-link-label">email</div>
+              <div class="contact-link-value">ltsworkspace9239@gmail.com</div>
+            </div>
+            <div class="contact-link-arrow">→</div>
+          </a>
+          <a href="https://github.com/liketosweep" target="_blank" class="contact-link">
+            <div class="contact-link-icon">⬡</div>
+            <div class="contact-link-info">
+              <div class="contact-link-label">github</div>
+              <div class="contact-link-value">github.com/liketosweep</div>
+            </div>
+            <div class="contact-link-arrow">→</div>
+          </a>
+          <a href="https://www.instagram.com/liketosweep/" target="_blank" class="contact-link">
+            <div class="contact-link-icon">◈</div>
+            <div class="contact-link-info">
+              <div class="contact-link-label">instagram</div>
+              <div class="contact-link-value">@liketosweep</div>
+            </div>
+            <div class="contact-link-arrow">→</div>
+          </a>
+        </div>
+      </div>
+      <div class="fade-in" style="transition-delay:0.15s">
+        <div class="contact-form">
+          <div class="form-group">
+            <label class="form-label">name</label>
+            <input type="text" class="form-input" placeholder="your_name">
+          </div>
+          <div class="form-group">
+            <label class="form-label">email</label>
+            <input type="email" class="form-input" placeholder="your@email.com">
+          </div>
+          <div class="form-group">
+            <label class="form-label">message</label>
+            <textarea class="form-textarea" placeholder="// write your message here..."></textarea>
+          </div>
+          <button class="btn-send" onclick="handleSend(this)">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+            send message
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-let mouseX = 0;
-let mouseY = 0;
-
-let trailX = 0;
-let trailY = 0;
-
-// track mouse
-document.addEventListener("mousemove", (e) => {
-  mouseX = e.clientX;
-  mouseY = e.clientY;
-
-  // dot follows instantly
-  dot.style.left = mouseX + "px";
-  dot.style.top = mouseY + "px";
-});
-
-// smooth trail animation
-function animate() {
-  trailX += (mouseX - trailX) * 0.12;
-  trailY += (mouseY - trailY) * 0.12;
-
-  trail.style.left = trailX + "px";
-  trail.style.top = trailY + "px";
-
-  requestAnimationFrame(animate);
-}
-
-animate();
-</script>
-<script>
-const hoverElements = document.querySelectorAll("a, button, .project-card, .skill-card");
-
-hoverElements.forEach(el => {
-  el.addEventListener("mouseenter", () => {
-    trail.style.background = "radial-gradient(circle, rgba(0,255,255,0.5), transparent)";
-    dot.style.background = "#00ffff";
-  });
-
-  el.addEventListener("mouseleave", () => {
-    trail.style.background = "radial-gradient(circle, rgba(79,70,229,0.4), transparent)";
-    dot.style.background = "#ffffff";
-  });
-});
-</script>
-  <script src="js/script.js"></script>
-  <footer>
-  <p>© 2026 liketosweep</p>
+<!-- FOOTER -->
+<footer>
+  <div class="foot-left">© 2026 <span>liketosweep</span> — all rights reserved</div>
+  <div class="foot-right">
+    <a href="https://github.com/liketosweep" target="_blank">github</a>
+    <a href="https://www.instagram.com/liketosweep/" target="_blank">instagram</a>
+    <a href="mailto:ltsworkspace9239@gmail.com">email</a>
+  </div>
 </footer>
+
+<script>
+  // Custom cursor
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursor-ring');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+  document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+  function animateCursor() {
+    cursor.style.left = mx + 'px'; cursor.style.top = my + 'px';
+    rx += (mx - rx) * 0.12; ry += (my - ry) * 0.12;
+    ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+    requestAnimationFrame(animateCursor);
+  }
+  animateCursor();
+
+  // Typed effect
+  const roles = [
+    'Security Researcher',
+    'Web Exploitation Specialist',
+    'Bug Bounty Hunter',
+    'Python Developer',
+  ];
+  let ri = 0, ci = 0, deleting = false;
+  const el = document.getElementById('typed-text');
+  function type() {
+    const word = roles[ri];
+    if (!deleting) {
+      el.textContent = word.slice(0, ++ci);
+      if (ci === word.length) { deleting = true; setTimeout(type, 1800); return; }
+    } else {
+      el.textContent = word.slice(0, --ci);
+      if (ci === 0) { deleting = false; ri = (ri + 1) % roles.length; }
+    }
+    setTimeout(type, deleting ? 45 : 80);
+  }
+  type();
+
+  // Scroll fade-in + skill bar animation
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.15 });
+  document.querySelectorAll('.fade-in, .skill-item').forEach(el => observer.observe(el));
+
+  // Contact form send handler
+  function handleSend(btn) {
+    const inputs = btn.closest('.contact-form').querySelectorAll('.form-input, .form-textarea');
+    let ok = true;
+    inputs.forEach(i => { if (!i.value.trim()) { i.style.borderColor = '#ff3c6e'; ok = false; } else { i.style.borderColor = ''; } });
+    if (!ok) return;
+    btn.textContent = '// message sent!';
+    btn.style.background = 'transparent';
+    btn.style.color = 'var(--accent)';
+    btn.style.border = '1px solid var(--accent)';
+    inputs.forEach(i => i.value = '');
+    setTimeout(() => {
+      btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg> send message';
+      btn.style.background = ''; btn.style.color = ''; btn.style.border = '';
+    }, 3000);
+  }
+
+  // Nav active link on scroll
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-links a');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => { if (window.scrollY >= s.offsetTop - 120) current = s.id; });
+    navLinks.forEach(a => {
+      a.style.color = a.getAttribute('href') === '#' + current ? 'var(--accent)' : '';
+    });
+  }, { passive: true });
+</script>
 </body>
 </html>

@@ -747,10 +747,12 @@
 
 <style>
   /* These styles are specifically scoped to this gateway element 
-     to ensure it looks perfect within your home page grid. 
+    to ensure it looks perfect within your home page grid. 
   */
   .projects-gateway-link {
     display: block;
+    max-width: 1300px;
+    margin: 0 auto;
     text-decoration: none;
     color: inherit;
     transition: transform .3s, border-color .3s, box-shadow .3s;
@@ -767,7 +769,8 @@
   .projects-gateway {
     background: #0d1526; /* Matches --surface */
     border: 1px solid #1a2a44; /* Matches --border */
-    border-radius: 8px;
+    border-radius: 16px;
+    overflow: hidden;
     height: 100%;
     display: flex;
     flex-direction: column;

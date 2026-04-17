@@ -1,0 +1,2175 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>liketosweep | Skills & Arsenal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@300;400;500;600;700&family=Orbitron:wght@400;700;900&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      *,
+      *::before,
+      *::after {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      :root {
+        --bg: #050810;
+        --bg2: #080d18;
+        --surface: #0d1526;
+        --surface2: #111c33;
+        --accent: #00f5c4;
+        --accent2: #0af;
+        --accent3: #7b2fff;
+        --text: #c8d8f0;
+        --muted: #4a6080;
+        --border: #1a2a44;
+        --danger: #ff3c6e;
+        --warn: #ffbe2e;
+        --mono: "Share Tech Mono", monospace;
+        --display: "Orbitron", sans-serif;
+        --body: "Rajdhani", sans-serif;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        background: var(--bg);
+        color: var(--text);
+        font-family: var(--body);
+        font-size: 16px;
+        line-height: 1.6;
+        cursor: none;
+        overflow-x: hidden;
+      }
+      #cursor {
+        position: fixed;
+        width: 12px;
+        height: 12px;
+        background: var(--accent);
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 9999;
+        transform: translate(-50%, -50%);
+        mix-blend-mode: screen;
+      }
+      #cursor-ring {
+        position: fixed;
+        width: 36px;
+        height: 36px;
+        border: 1px solid var(--accent2);
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 9998;
+        transform: translate(-50%, -50%);
+        opacity: 0.5;
+      }
+      ::-webkit-scrollbar {
+        width: 4px;
+      }
+      ::-webkit-scrollbar-track {
+        background: var(--bg);
+      }
+      ::-webkit-scrollbar-thumb {
+        background: var(--accent3);
+        border-radius: 2px;
+      }
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        background: repeating-linear-gradient(
+          0deg,
+          transparent,
+          transparent 2px,
+          rgba(0, 0, 0, 0.06) 2px,
+          rgba(0, 0, 0, 0.06) 4px
+        );
+        pointer-events: none;
+        z-index: 1000;
+      }
+      .grid-bg {
+        position: fixed;
+        inset: 0;
+        background-image:
+          linear-gradient(rgba(0, 245, 196, 0.03) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(0, 245, 196, 0.03) 1px, transparent 1px);
+        background-size: 60px 60px;
+        pointer-events: none;
+        z-index: 0;
+      }
+
+      /* NAV */
+      nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 500;
+        padding: 18px 48px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: rgba(5, 8, 16, 0.85);
+        backdrop-filter: blur(16px);
+        border-bottom: 1px solid rgba(0, 245, 196, 0.08);
+      }
+      .nav-logo {
+        font-family: var(--display);
+        font-size: 14px;
+        font-weight: 700;
+        color: var(--accent);
+        letter-spacing: 0.2em;
+        text-decoration: none;
+      }
+      .nav-logo span {
+        color: var(--accent3);
+      }
+      .nav-links {
+        display: flex;
+        gap: 36px;
+        list-style: none;
+      }
+      .nav-links a {
+        font-family: var(--mono);
+        font-size: 12px;
+        color: var(--muted);
+        text-decoration: none;
+        letter-spacing: 0.1em;
+        transition: color 0.3s;
+        position: relative;
+      }
+      .nav-links a::before {
+        content: "> ";
+        color: var(--accent);
+        opacity: 0;
+        transition: opacity 0.3s;
+      }
+      .nav-links a:hover,
+      .nav-links a.active {
+        color: var(--accent);
+      }
+      .nav-links a:hover::before,
+      .nav-links a.active::before {
+        opacity: 1;
+      }
+      .nav-status {
+        font-family: var(--mono);
+        font-size: 11px;
+        color: var(--accent);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .pulse-dot {
+        width: 7px;
+        height: 7px;
+        background: var(--accent);
+        border-radius: 50%;
+        animation: pulse 2s infinite;
+      }
+      @keyframes pulse {
+        0%,
+        100% {
+          opacity: 1;
+          box-shadow: 0 0 0 0 rgba(0, 245, 196, 0.4);
+        }
+        50% {
+          opacity: 0.6;
+          box-shadow: 0 0 0 6px rgba(0, 245, 196, 0);
+        }
+      }
+
+      /* PAGE HERO */
+      .page-hero {
+        position: relative;
+        z-index: 1;
+        padding: 140px 48px 80px;
+        border-bottom: 1px solid var(--border);
+        overflow: hidden;
+      }
+      .page-hero-inner {
+        max-width: 1100px;
+        margin: 0 auto;
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 40px;
+        flex-wrap: wrap;
+      }
+      .hero-badge {
+        font-family: var(--mono);
+        font-size: 11px;
+        color: var(--accent);
+        letter-spacing: 0.2em;
+        margin-bottom: 16px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .hero-badge::before {
+        content: "";
+        width: 40px;
+        height: 1px;
+        background: var(--accent);
+        display: inline-block;
+      }
+      .page-title {
+        font-family: var(--display);
+        font-size: clamp(2.2rem, 6vw, 4.5rem);
+        font-weight: 900;
+        color: #fff;
+        line-height: 1.05;
+        margin-bottom: 18px;
+      }
+      .page-title span {
+        color: var(--accent);
+      }
+      .page-subtitle {
+        font-family: var(--mono);
+        font-size: 13px;
+        color: var(--muted);
+        max-width: 500px;
+        line-height: 1.7;
+      }
+
+      /* HERO STATS */
+      .hero-stats {
+        display: flex;
+        gap: 20px;
+        flex-wrap: wrap;
+        align-items: flex-end;
+      }
+      .h-stat {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        padding: 16px 24px;
+        text-align: center;
+        min-width: 100px;
+        transition: border-color 0.3s;
+      }
+      .h-stat:hover {
+        border-color: var(--accent3);
+      }
+      .h-stat-num {
+        font-family: var(--display);
+        font-size: 1.6rem;
+        font-weight: 900;
+        color: var(--accent);
+        line-height: 1;
+        margin-bottom: 6px;
+      }
+      .h-stat-label {
+        font-family: var(--mono);
+        font-size: 10px;
+        color: var(--muted);
+        letter-spacing: 0.1em;
+      }
+
+      /* SECTION */
+      .section {
+        position: relative;
+        z-index: 1;
+      }
+      .section-inner {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 80px 48px;
+      }
+      .section-label {
+        font-family: var(--mono);
+        font-size: 11px;
+        color: var(--accent);
+        letter-spacing: 0.2em;
+        margin-bottom: 12px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .section-label::after {
+        content: "";
+        flex: 1;
+        max-width: 60px;
+        height: 1px;
+        background: linear-gradient(90deg, var(--accent), transparent);
+      }
+      .section-title {
+        font-family: var(--display);
+        font-size: clamp(1.5rem, 3vw, 2rem);
+        font-weight: 700;
+        color: #fff;
+        margin-bottom: 40px;
+        line-height: 1.2;
+      }
+      .section-title span {
+        color: var(--accent);
+      }
+      .section-divider {
+        height: 1px;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          var(--border),
+          transparent
+        );
+        margin: 0 48px;
+      }
+
+      /* SKILL CATEGORY TABS */
+      .tab-bar {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin-bottom: 40px;
+      }
+      .tab-btn {
+        font-family: var(--mono);
+        font-size: 11px;
+        letter-spacing: 0.1em;
+        padding: 8px 18px;
+        border-radius: 3px;
+        border: 1px solid var(--border);
+        background: transparent;
+        color: var(--muted);
+        transition: all 0.3s;
+      }
+      .tab-btn:hover {
+        border-color: var(--accent2);
+        color: var(--accent2);
+      }
+      .tab-btn.active {
+        border-color: var(--accent);
+        color: var(--accent);
+        background: rgba(0, 245, 196, 0.06);
+      }
+
+      /* SKILL CARDS */
+      .skills-panel {
+        display: none;
+      }
+      .skills-panel.active {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+        gap: 18px;
+      }
+
+      .skill-card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 22px 22px 18px;
+        transition:
+          transform 0.3s,
+          border-color 0.3s,
+          box-shadow 0.3s;
+        position: relative;
+        overflow: hidden;
+      }
+      .skill-card::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: linear-gradient(90deg, var(--accent3), var(--accent));
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.4s;
+      }
+      .skill-card:hover {
+        transform: translateY(-5px);
+        border-color: var(--accent);
+        box-shadow:
+          0 0 28px rgba(0, 245, 196, 0.09),
+          0 14px 36px rgba(0, 0, 0, 0.5);
+      }
+      .skill-card:hover::after {
+        transform: scaleX(1);
+      }
+      .skill-card-head {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        margin-bottom: 16px;
+      }
+      .skill-emoji {
+        font-size: 26px;
+        width: 44px;
+        height: 44px;
+        background: rgba(0, 245, 196, 0.07);
+        border: 1px solid rgba(0, 245, 196, 0.12);
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+      }
+      .skill-info {
+        flex: 1;
+      }
+      .skill-name {
+        font-family: var(--display);
+        font-size: 13px;
+        font-weight: 700;
+        color: #fff;
+        letter-spacing: 0.06em;
+        margin-bottom: 3px;
+      }
+      .skill-type {
+        font-family: var(--mono);
+        font-size: 10px;
+        color: var(--muted);
+      }
+      .skill-level-badge {
+        font-family: var(--mono);
+        font-size: 10px;
+        padding: 3px 10px;
+        border-radius: 3px;
+        border: 1px solid;
+        letter-spacing: 0.06em;
+      }
+      .lvl-beginner {
+        color: #29cb42;
+        border-color: rgba(41, 203, 66, 0.3);
+        background: rgba(41, 203, 66, 0.07);
+      }
+      .lvl-inter {
+        color: var(--accent2);
+        border-color: rgba(0, 170, 255, 0.3);
+        background: rgba(0, 170, 255, 0.07);
+      }
+      .lvl-advanced {
+        color: #a78bfa;
+        border-color: rgba(167, 139, 250, 0.3);
+        background: rgba(167, 139, 250, 0.07);
+      }
+      .lvl-learning {
+        color: var(--warn);
+        border-color: rgba(255, 190, 46, 0.3);
+        background: rgba(255, 190, 46, 0.07);
+      }
+
+      .skill-bar-bg {
+        height: 3px;
+        background: var(--border);
+        border-radius: 2px;
+        overflow: hidden;
+        margin-bottom: 10px;
+      }
+      .skill-bar-fill {
+        height: 100%;
+        border-radius: 2px;
+        background: linear-gradient(90deg, var(--accent3), var(--accent));
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 1.3s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      .skill-card.visible .skill-bar-fill {
+        transform: scaleX(1);
+      }
+      .skill-meta {
+        display: flex;
+        justify-content: space-between;
+        font-family: var(--mono);
+        font-size: 11px;
+        color: var(--muted);
+      }
+      .skill-desc {
+        font-size: 13px;
+        color: var(--muted);
+        line-height: 1.55;
+        margin-top: 12px;
+        border-top: 1px solid var(--border);
+        padding-top: 12px;
+      }
+
+      /* CERTIFICATES */
+      .certs-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 22px;
+      }
+      .cert-card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        overflow: hidden;
+        transition:
+          transform 0.3s,
+          border-color 0.3s,
+          box-shadow 0.3s;
+      }
+      .cert-card:hover {
+        transform: translateY(-5px);
+        border-color: var(--accent3);
+        box-shadow:
+          0 0 28px rgba(123, 47, 255, 0.12),
+          0 14px 36px rgba(0, 0, 0, 0.5);
+      }
+      .cert-banner {
+        height: 6px;
+      }
+      .cert-body {
+        padding: 22px;
+      }
+      .cert-issuer-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 16px;
+      }
+      .cert-issuer {
+        font-family: var(--mono);
+        font-size: 10px;
+        color: var(--muted);
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+      }
+      .cert-status {
+        font-family: var(--mono);
+        font-size: 10px;
+        padding: 3px 10px;
+        border-radius: 3px;
+        border: 1px solid;
+      }
+      .cs-earned {
+        color: #29cb42;
+        border-color: rgba(41, 203, 66, 0.3);
+        background: rgba(41, 203, 66, 0.07);
+      }
+      .cs-progress {
+        color: var(--warn);
+        border-color: rgba(255, 190, 46, 0.3);
+        background: rgba(255, 190, 46, 0.07);
+      }
+      .cs-planned {
+        color: var(--muted);
+        border-color: var(--border);
+        background: transparent;
+      }
+      .cert-title {
+        font-family: var(--body);
+        font-size: 17px;
+        font-weight: 700;
+        color: #fff;
+        letter-spacing: 0.02em;
+        margin-bottom: 8px;
+      }
+      .cert-desc {
+        font-size: 13px;
+        color: var(--muted);
+        line-height: 1.6;
+        margin-bottom: 18px;
+      }
+      .cert-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 7px;
+        margin-bottom: 16px;
+      }
+      .tag {
+        font-family: var(--mono);
+        font-size: 10px;
+        letter-spacing: 0.06em;
+        padding: 3px 9px;
+        border-radius: 3px;
+        border: 1px solid;
+      }
+      .tag-green {
+        color: #29cb42;
+        border-color: rgba(41, 203, 66, 0.3);
+        background: rgba(41, 203, 66, 0.06);
+      }
+      .tag-blue {
+        color: var(--accent2);
+        border-color: rgba(0, 170, 255, 0.3);
+        background: rgba(0, 170, 255, 0.06);
+      }
+      .tag-purple {
+        color: #a78bfa;
+        border-color: rgba(167, 139, 250, 0.3);
+        background: rgba(167, 139, 250, 0.06);
+      }
+      .tag-red {
+        color: var(--danger);
+        border-color: rgba(255, 60, 110, 0.3);
+        background: rgba(255, 60, 110, 0.06);
+      }
+      .tag-cyan {
+        color: var(--accent);
+        border-color: rgba(0, 245, 196, 0.3);
+        background: rgba(0, 245, 196, 0.06);
+      }
+      .tag-yellow {
+        color: var(--warn);
+        border-color: rgba(255, 190, 46, 0.3);
+        background: rgba(255, 190, 46, 0.06);
+      }
+      .cert-footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding-top: 14px;
+        border-top: 1px solid var(--border);
+      }
+      .cert-date {
+        font-family: var(--mono);
+        font-size: 11px;
+        color: var(--muted);
+      }
+      .cert-link {
+        font-family: var(--mono);
+        font-size: 12px;
+        color: var(--accent);
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        transition: gap 0.3s;
+      }
+      .cert-link:hover {
+        gap: 12px;
+      }
+      .cert-link.disabled {
+        color: var(--muted);
+        pointer-events: none;
+      }
+
+      /* Progress ring for cert-progress */
+      .progress-ring-wrap {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 12px;
+      }
+      .pring {
+        transform: rotate(-90deg);
+      }
+      .pring-bg {
+        fill: none;
+        stroke: var(--border);
+        stroke-width: 3;
+      }
+      .pring-fill {
+        fill: none;
+        stroke: var(--warn);
+        stroke-width: 3;
+        stroke-linecap: round;
+        transition: stroke-dashoffset 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      .pring-label {
+        font-family: var(--mono);
+        font-size: 11px;
+        color: var(--muted);
+      }
+      .pring-label span {
+        color: var(--warn);
+      }
+
+      /* TOOLS */
+      .tools-section {
+        background: var(--bg2);
+      }
+      .tools-categories {
+        display: flex;
+        flex-direction: column;
+        gap: 48px;
+      }
+      .tool-category-title {
+        font-family: var(--display);
+        font-size: 14px;
+        font-weight: 700;
+        color: #fff;
+        letter-spacing: 0.1em;
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .tool-category-title::after {
+        content: "";
+        flex: 1;
+        height: 1px;
+        background: var(--border);
+      }
+      .tools-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 14px;
+      }
+      .tool-chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 16px;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        transition: all 0.3s;
+      }
+      .tool-chip:hover {
+        border-color: var(--accent);
+        box-shadow: 0 0 16px rgba(0, 245, 196, 0.1);
+        transform: translateY(-3px);
+      }
+      .tool-chip-icon {
+        font-size: 18px;
+      }
+      .tool-chip-name {
+        font-family: var(--mono);
+        font-size: 12px;
+        color: var(--text);
+        letter-spacing: 0.05em;
+      }
+      .tool-chip-level {
+        font-family: var(--mono);
+        font-size: 9px;
+        padding: 2px 7px;
+        border-radius: 2px;
+        margin-left: 4px;
+      }
+
+      /* RADAR / skill overview */
+      .overview-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 40px;
+        align-items: start;
+      }
+      .radar-wrap {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 28px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .domain-list {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+      .domain-item {
+      }
+      .domain-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 8px;
+      }
+      .domain-name {
+        font-family: var(--body);
+        font-size: 15px;
+        font-weight: 600;
+        color: #fff;
+      }
+      .domain-pct {
+        font-family: var(--mono);
+        font-size: 12px;
+        color: var(--accent);
+      }
+      .domain-bar-bg {
+        height: 4px;
+        background: var(--border);
+        border-radius: 2px;
+        overflow: hidden;
+      }
+      .domain-bar-fill {
+        height: 100%;
+        border-radius: 2px;
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      .domain-item.visible .domain-bar-fill {
+        transform: scaleX(1);
+      }
+      .db-red {
+        background: linear-gradient(90deg, #7b2fff, var(--danger));
+      }
+      .db-blue {
+        background: linear-gradient(90deg, var(--accent3), var(--accent2));
+      }
+      .db-green {
+        background: linear-gradient(90deg, var(--accent2), var(--accent));
+      }
+      .db-yellow {
+        background: linear-gradient(90deg, var(--accent3), var(--warn));
+      }
+      .db-purple {
+        background: linear-gradient(90deg, #7b2fff, #a78bfa);
+      }
+
+      /* Learning path */
+      .path-section {
+        background: var(--bg);
+      }
+      .timeline {
+        position: relative;
+        padding-left: 32px;
+      }
+      .timeline::before {
+        content: "";
+        position: absolute;
+        left: 8px;
+        top: 8px;
+        bottom: 8px;
+        width: 1px;
+        background: linear-gradient(
+          180deg,
+          var(--accent),
+          var(--accent3),
+          transparent
+        );
+      }
+      .timeline-item {
+        position: relative;
+        margin-bottom: 32px;
+      }
+      .timeline-item:last-child {
+        margin-bottom: 0;
+      }
+      .tl-dot {
+        position: absolute;
+        left: -28px;
+        top: 4px;
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        border: 2px solid var(--bg);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .tl-dot-inner {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+      }
+      .tl-done .tl-dot {
+        background: var(--accent);
+      }
+      .tl-done .tl-dot-inner {
+        background: #030610;
+      }
+      .tl-now .tl-dot {
+        background: var(--warn);
+        animation: pulse 2s infinite;
+      }
+      .tl-now .tl-dot-inner {
+        background: #030610;
+      }
+      .tl-next .tl-dot {
+        background: var(--border);
+      }
+      .tl-next .tl-dot-inner {
+        background: var(--muted);
+      }
+      .tl-card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        padding: 18px 20px;
+        transition: border-color 0.3s;
+      }
+      .tl-done .tl-card {
+        border-left: 2px solid var(--accent);
+      }
+      .tl-now .tl-card {
+        border-left: 2px solid var(--warn);
+      }
+      .tl-next .tl-card {
+        border-left: 2px solid var(--muted);
+        opacity: 0.65;
+      }
+      .tl-label {
+        font-family: var(--mono);
+        font-size: 10px;
+        letter-spacing: 0.1em;
+        margin-bottom: 6px;
+      }
+      .tl-done .tl-label {
+        color: var(--accent);
+      }
+      .tl-now .tl-label {
+        color: var(--warn);
+      }
+      .tl-next .tl-label {
+        color: var(--muted);
+      }
+      .tl-title {
+        font-family: var(--body);
+        font-size: 16px;
+        font-weight: 700;
+        color: #fff;
+        margin-bottom: 6px;
+      }
+      .tl-desc {
+        font-size: 13px;
+        color: var(--muted);
+        line-height: 1.6;
+      }
+
+      /* FOOTER */
+      footer {
+        position: relative;
+        z-index: 1;
+        padding: 32px 48px;
+        border-top: 1px solid var(--border);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-family: var(--mono);
+        font-size: 11px;
+        color: var(--muted);
+      }
+      footer .foot-left span {
+        color: var(--accent);
+      }
+      footer .foot-right {
+        display: flex;
+        gap: 24px;
+      }
+      footer a {
+        color: var(--muted);
+        text-decoration: none;
+        transition: color 0.2s;
+      }
+      footer a:hover {
+        color: var(--accent);
+      }
+
+      /* fade-in */
+      .fade-in {
+        opacity: 0;
+        transform: translateY(24px);
+        transition:
+          opacity 0.7s ease,
+          transform 0.7s ease;
+      }
+      .fade-in.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      @media (max-width: 900px) {
+        nav {
+          padding: 16px 24px;
+        }
+        .nav-links {
+          display: none;
+        }
+        .page-hero {
+          padding: 110px 24px 60px;
+        }
+        .section-inner {
+          padding: 60px 24px;
+        }
+        .section-divider {
+          margin: 0 24px;
+        }
+        .overview-grid {
+          grid-template-columns: 1fr;
+        }
+        footer {
+          padding: 24px;
+          flex-direction: column;
+          gap: 12px;
+          text-align: center;
+        }
+      }
+    </style>
+
+    <style>
+      *,
+      *::before,
+      *::after,
+      html,
+      body,
+      a,
+      a:hover,
+      button,
+      button:hover,
+      input,
+      input:hover,
+      input:focus,
+      textarea,
+      textarea:hover,
+      textarea:focus,
+      .tab-btn,
+      .skill-card,
+      .cert-card,
+      .cert-link,
+      .tool-chip {
+        cursor: none !important;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="cursor"></div>
+    <div id="cursor-ring"></div>
+    <div class="grid-bg"></div>
+
+    <nav>
+      <a href="index.html" class="nav-logo">LTS<span>_</span></a>
+      <ul class="nav-links">
+        <li><a href="index.html">home</a></li>
+        <li><a href="index.html#projects">projects</a></li>
+        <li><a href="skills.html" class="active">skills</a></li>
+        <li><a href="index.html#about">about</a></li>
+        <li><a href="open-source.html">open source</a></li>
+        <li><a href="index.html#contact">contact</a></li>
+      </ul>
+      <div class="nav-status">
+        <div class="pulse-dot"></div>
+        available for work
+      </div>
+    </nav>
+
+    <div class="page-hero">
+      <div class="page-hero-inner">
+        <div>
+          <div class="hero-badge">// skills · certificates · tools</div>
+          <div class="page-title">The Full<br /><span>Arsenal</span></div>
+          <p class="page-subtitle">
+            Every skill sharpened, every tool mastered, every cert earned — and
+            what's coming next on the roadmap.
+          </p>
+        </div>
+        <div class="hero-stats fade-in">
+          <div class="h-stat">
+            <div class="h-stat-num">6+</div>
+            <div class="h-stat-label">core skills</div>
+          </div>
+          <div class="h-stat">
+            <div class="h-stat-num">3+</div>
+            <div class="h-stat-label">certs & labs</div>
+          </div>
+          <div class="h-stat">
+            <div class="h-stat-num">15+</div>
+            <div class="h-stat-label">tools used</div>
+          </div>
+          <div class="h-stat">
+            <div class="h-stat-num">∞</div>
+            <div class="h-stat-label">still learning</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <section class="section">
+      <div class="section-inner">
+        <div class="section-label">// 01 — overview</div>
+        <div class="section-title">Domain <span>Proficiency</span></div>
+        <div class="overview-grid">
+          <div class="domain-list">
+            <div class="domain-item fade-in">
+              <div class="domain-header">
+                <span class="domain-name">Web Exploitation</span
+                ><span class="domain-pct">82%</span>
+              </div>
+              <div class="domain-bar-bg">
+                <div class="domain-bar-fill db-red" style="width: 82%"></div>
+              </div>
+            </div>
+            <div class="domain-item fade-in" style="transition-delay: 0.07s">
+              <div class="domain-header">
+                <span class="domain-name">Python & Scripting</span
+                ><span class="domain-pct">78%</span>
+              </div>
+              <div class="domain-bar-bg">
+                <div class="domain-bar-fill db-green" style="width: 78%"></div>
+              </div>
+            </div>
+            <div class="domain-item fade-in" style="transition-delay: 0.14s">
+              <div class="domain-header">
+                <span class="domain-name">Linux & Systems</span
+                ><span class="domain-pct">74%</span>
+              </div>
+              <div class="domain-bar-bg">
+                <div class="domain-bar-fill db-blue" style="width: 74%"></div>
+              </div>
+            </div>
+            <div class="domain-item fade-in" style="transition-delay: 0.21s">
+              <div class="domain-header">
+                <span class="domain-name">Bug Bounty Hunting</span
+                ><span class="domain-pct">68%</span>
+              </div>
+              <div class="domain-bar-bg">
+                <div class="domain-bar-fill db-yellow" style="width: 68%"></div>
+              </div>
+            </div>
+            <div class="domain-item fade-in" style="transition-delay: 0.28s">
+              <div class="domain-header">
+                <span class="domain-name">Recon & OSINT</span
+                ><span class="domain-pct">65%</span>
+              </div>
+              <div class="domain-bar-bg">
+                <div class="domain-bar-fill db-purple" style="width: 65%"></div>
+              </div>
+            </div>
+            <div class="domain-item fade-in" style="transition-delay: 0.35s">
+              <div class="domain-header">
+                <span class="domain-name">Network & Protocols</span
+                ><span class="domain-pct">60%</span>
+              </div>
+              <div class="domain-bar-bg">
+                <div class="domain-bar-fill db-blue" style="width: 60%"></div>
+              </div>
+            </div>
+          </div>
+          <div class="radar-wrap fade-in" style="transition-delay: 0.1s">
+            <svg
+              width="280"
+              height="280"
+              viewBox="0 0 280 280"
+              id="radar-svg"
+            ></svg>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <section class="section" style="background: var(--bg2)">
+      <div class="section-inner">
+        <div class="section-label">// 02 — skills</div>
+        <div class="section-title">Technical <span>Skills</span></div>
+
+        <div class="tab-bar">
+          <button class="tab-btn active" data-tab="offensive">
+            Offensive Security
+          </button>
+          <button class="tab-btn" data-tab="programming">Programming</button>
+          <button class="tab-btn" data-tab="systems">Systems & Infra</button>
+          <button class="tab-btn" data-tab="recon">Recon & OSINT</button>
+        </div>
+
+        <div class="skills-panel active" id="panel-offensive">
+          <div class="skill-card fade-in">
+            <div class="skill-card-head">
+              <div class="skill-emoji">💉</div>
+              <div class="skill-info">
+                <div class="skill-name">SQL INJECTION</div>
+                <div class="skill-type">Web Exploitation</div>
+              </div>
+              <span class="skill-level-badge lvl-inter">intermediate</span>
+            </div>
+            <div class="skill-bar-bg">
+              <div class="skill-bar-fill" style="width: 80%"></div>
+            </div>
+            <div class="skill-meta">
+              <span>error-based · blind · time</span><span>80%</span>
+            </div>
+            <div class="skill-desc">
+              Union-based, blind, time-based, and error-based injection.
+              Experience extracting DB schemas and dumping data via manual and
+              automated approaches.
+            </div>
+          </div>
+          <div class="skill-card fade-in" style="transition-delay: 0.07s">
+            <div class="skill-card-head">
+              <div class="skill-emoji">📜</div>
+              <div class="skill-info">
+                <div class="skill-name">XSS</div>
+                <div class="skill-type">Client-Side Attacks</div>
+              </div>
+              <span class="skill-level-badge lvl-inter">intermediate</span>
+            </div>
+            <div class="skill-bar-bg">
+              <div class="skill-bar-fill" style="width: 78%"></div>
+            </div>
+            <div class="skill-meta">
+              <span>reflected · stored · DOM</span><span>78%</span>
+            </div>
+            <div class="skill-desc">
+              Reflected, stored, and DOM-based XSS. Cookie hijacking, keylogging
+              payloads, and CSP bypass techniques practiced across PortSwigger
+              labs.
+            </div>
+          </div>
+          <div class="skill-card fade-in" style="transition-delay: 0.14s">
+            <div class="skill-card-head">
+              <div class="skill-emoji">🔄</div>
+              <div class="skill-info">
+                <div class="skill-name">CSRF</div>
+                <div class="skill-type">Session Attacks</div>
+              </div>
+              <span class="skill-level-badge lvl-inter">intermediate</span>
+            </div>
+            <div class="skill-bar-bg">
+              <div class="skill-bar-fill" style="width: 72%"></div>
+            </div>
+            <div class="skill-meta">
+              <span>token bypass · samesite</span><span>72%</span>
+            </div>
+            <div class="skill-desc">
+              Forging cross-site requests, bypassing token validations, and
+              leveraging SameSite cookie attribute misconfigurations.
+            </div>
+          </div>
+          <div class="skill-card fade-in" style="transition-delay: 0.21s">
+            <div class="skill-card-head">
+              <div class="skill-emoji">🌐</div>
+              <div class="skill-info">
+                <div class="skill-name">SSRF</div>
+                <div class="skill-type">Server-Side Attacks</div>
+              </div>
+              <span class="skill-level-badge lvl-beginner">beginner</span>
+            </div>
+            <div class="skill-bar-bg">
+              <div class="skill-bar-fill" style="width: 58%"></div>
+            </div>
+            <div class="skill-meta">
+              <span>internal access · bypass</span><span>58%</span>
+            </div>
+            <div class="skill-desc">
+              Probing internal services via SSRF, bypassing allowlists using
+              redirects and alternative IP formats, and cloud metadata
+              exploitation basics.
+            </div>
+          </div>
+          <div class="skill-card fade-in" style="transition-delay: 0.28s">
+            <div class="skill-card-head">
+              <div class="skill-emoji">📦</div>
+              <div class="skill-info">
+                <div class="skill-name">XXE</div>
+                <div class="skill-type">XML Attacks</div>
+              </div>
+              <span class="skill-level-badge lvl-beginner">beginner</span>
+            </div>
+            <div class="skill-bar-bg">
+              <div class="skill-bar-fill" style="width: 55%"></div>
+            </div>
+            <div class="skill-meta">
+              <span>file read · blind xxe</span><span>55%</span>
+            </div>
+            <div class="skill-desc">
+              XML external entity injection for local file disclosure, SSRF via
+              XXE, and out-of-band data exfiltration techniques.
+            </div>
+          </div>
+          <div class="skill-card fade-in" style="transition-delay: 0.35s">
+            <div class="skill-card-head">
+              <div class="skill-emoji">🖥️</div>
+              <div class="skill-info">
+                <div class="skill-name">SSTI</div>
+                <div class="skill-type">Template Injection</div>
+              </div>
+              <span class="skill-level-badge lvl-learning">learning</span>
+            </div>
+            <div class="skill-bar-bg">
+              <div class="skill-bar-fill" style="width: 45%"></div>
+            </div>
+            <div class="skill-meta">
+              <span>jinja2 · twig · detection</span><span>45%</span>
+            </div>
+            <div class="skill-desc">
+              Identifying and exploiting server-side template injection in
+              Jinja2 and Twig engines to achieve RCE through crafted payload
+              injection.
+            </div>
+          </div>
+        </div>
+
+        <div class="skills-panel" id="panel-programming">
+          <div class="skill-card fade-in">
+            <div class="skill-card-head">
+              <div class="skill-emoji">🐍</div>
+              <div class="skill-info">
+                <div class="skill-name">PYTHON</div>
+                <div class="skill-type">Primary Language</div>
+              </div>
+              <span class="skill-level-badge lvl-inter">intermediate</span>
+            </div>
+            <div class="skill-bar-bg">
+              <div class="skill-bar-fill" style="width: 82%"></div>
+            </div>
+            <div class="skill-meta">
+              <span>scripting · automation · tools</span><span>82%</span>
+            </div>
+            <div class="skill-desc">
+              Writing security tooling, automating recon pipelines, building
+              HTTP scanners, and scripting exploit PoCs. Comfortable with
+              requests, argparse, and file I/O.
+            </div>
+          </div>
+          <div class="skill-card fade-in" style="transition-delay: 0.07s">
+            <div class="skill-card-head">
+              <div class="skill-emoji">🌐</div>
+              <div class="skill-info">
+                <div class="skill-name">HTTP / PROTOCOLS</div>
+                <div class="skill-type">Networking</div>
+              </div>
+              <span class="skill-level-badge lvl-inter">intermediate</span>
+            </div>
+            <div class="skill-bar-bg">
+              <div class="skill-bar-fill" style="width: 85%"></div>
+            </div>
+            <div class="skill-meta">
+              <span>requests · headers · sessions</span><span>85%</span>
+            </div>
+            <div class="skill-desc">
+              Deep understanding of HTTP/S request-response cycle, headers,
+              cookies, sessions, methods, and how web apps communicate under the
+              hood.
+            </div>
+          </div>
+          <div class="skill-card fade-in" style="transition-delay: 0.14s">
+            <div class="skill-card-head">
+              <div class="skill-emoji">📝</div>
+              <div class="skill-info">
+                <div class="skill-name">BASH / SHELL</div>
+                <div class="skill-type">Scripting</div>
+              </div>
+              <span class="skill-level-badge lvl-beginner">beginner</span>
+            </div>
+            <div class="skill-bar-bg">
+              <div class="skill-bar-fill" style="width: 60%"></div>
+            </div>
+            <div class="skill-meta">
+              <span>automation · pipelines</span><span>60%</span>
+            </div>
+            <div class="skill-desc">
+              Writing shell scripts for task automation, chaining CLI tools,
+              setting up recon pipelines, and basic process management on Linux.
+            </div>
+          </div>
+          <div class="skill-card fade-in" style="transition-delay: 0.21s">
+            <div class="skill-card-head">
+              <div class="skill-emoji">🔧</div>
+              <div class="skill-info">
+                <div class="skill-name">GIT / GITHUB</div>
+                <div class="skill-type">Version Control</div>
+              </div>
+              <span class="skill-level-badge lvl-inter">intermediate</span>
+            </div>
+            <div class="skill-bar-bg">
+              <div class="skill-bar-fill" style="width: 72%"></div>
+            </div>
+            <div class="skill-meta">
+              <span>branches · PRs · pages</span><span>72%</span>
+            </div>
+            <div class="skill-desc">
+              Managing repos, branching strategy, pull requests, and using
+              GitHub Pages to host projects. Familiar with GitHub Actions
+              basics.
+            </div>
+          </div>
+        </div>
+
+        <div class="skills-panel" id="panel-systems">
+          <div class="skill-card fade-in">
+            <div class="skill-card-head">
+              <div class="skill-emoji">🐧</div>
+              <div class="skill-info">
+                <div class="skill-name">LINUX</div>
+                <div class="skill-type">Operating System</div>
+              </div>
+              <span class="skill-level-badge lvl-inter">intermediate</span>
+            </div>
+            <div class="skill-bar-bg">
+              <div class="skill-bar-fill" style="width: 75%"></div>
+            </div>
+            <div class="skill-meta">
+              <span>kali · ubuntu · CLI</span><span>75%</span>
+            </div>
+            <div class="skill-desc">
+              Comfortable in Kali Linux and Ubuntu environments. File system
+              navigation, permissions, process management, networking commands,
+              and installing/configuring security tools.
+            </div>
+          </div>
+          <div class="skill-card fade-in" style="transition-delay: 0.07s">
+            <div class="skill-card-head">
+              <div class="skill-emoji">🔌</div>
+              <div class="skill-info">
+                <div class="skill-name">NETWORKING</div>
+                <div class="skill-type">Core Concept</div>
+              </div>
+              <span class="skill-level-badge lvl-beginner">beginner</span>
+            </div>
+            <div class="skill-bar-bg">
+              <div class="skill-bar-fill" style="width: 60%"></div>
+            </div>
+            <div class="skill-meta">
+              <span>TCP/IP · DNS · ports</span><span>60%</span>
+            </div>
+            <div class="skill-desc">
+              Understanding of TCP/IP stack, DNS resolution, port scanning,
+              subnetting basics, and how traffic flows between client and
+              server.
+            </div>
+          </div>
+          <div class="skill-card fade-in" style="transition-delay: 0.14s">
+            <div class="skill-card-head">
+              <div class="skill-emoji">🔍</div>
+              <div class="skill-info">
+                <div class="skill-name">BURPSUITE</div>
+                <div class="skill-type">Proxy & Interception</div>
+              </div>
+              <span class="skill-level-badge lvl-inter">intermediate</span>
+            </div>
+            <div class="skill-bar-bg">
+              <div class="skill-bar-fill" style="width: 78%"></div>
+            </div>
+            <div class="skill-meta">
+              <span>intercept · repeater · intruder</span><span>78%</span>
+            </div>
+            <div class="skill-desc">
+              Intercepting and modifying HTTP traffic, using Repeater for manual
+              testing, Intruder for fuzzing, and Decoder for payload crafting.
+            </div>
+          </div>
+        </div>
+
+        <div class="skills-panel" id="panel-recon">
+          <div class="skill-card fade-in">
+            <div class="skill-card-head">
+              <div class="skill-emoji">🕵️</div>
+              <div class="skill-info">
+                <div class="skill-name">OSINT</div>
+                <div class="skill-type">Open Source Intelligence</div>
+              </div>
+              <span class="skill-level-badge lvl-beginner">beginner</span>
+            </div>
+            <div class="skill-bar-bg">
+              <div class="skill-bar-fill" style="width: 62%"></div>
+            </div>
+            <div class="skill-meta">
+              <span>passive recon · footprinting</span><span>62%</span>
+            </div>
+            <div class="skill-desc">
+              Passive reconnaissance using search engines, WHOIS, Shodan, social
+              media, and public records to build a target profile without direct
+              interaction.
+            </div>
+          </div>
+          <div class="skill-card fade-in" style="transition-delay: 0.07s">
+            <div class="skill-card-head">
+              <div class="skill-emoji">🌍</div>
+              <div class="skill-info">
+                <div class="skill-name">SUBDOMAIN ENUM</div>
+                <div class="skill-type">Recon</div>
+              </div>
+              <span class="skill-level-badge lvl-beginner">beginner</span>
+            </div>
+            <div class="skill-bar-bg">
+              <div class="skill-bar-fill" style="width: 58%"></div>
+            </div>
+            <div class="skill-meta">
+              <span>amass · subfinder · dns</span><span>58%</span>
+            </div>
+            <div class="skill-desc">
+              Enumerating subdomains using tools like Amass and Subfinder,
+              brute-forcing with wordlists, and analyzing results for attack
+              surface expansion.
+            </div>
+          </div>
+          <div class="skill-card fade-in" style="transition-delay: 0.14s">
+            <div class="skill-card-head">
+              <div class="skill-emoji">🔎</div>
+              <div class="skill-info">
+                <div class="skill-name">GOOGLE DORKING</div>
+                <div class="skill-type">Search Exploitation</div>
+              </div>
+              <span class="skill-level-badge lvl-inter">intermediate</span>
+            </div>
+            <div class="skill-bar-bg">
+              <div class="skill-bar-fill" style="width: 70%"></div>
+            </div>
+            <div class="skill-meta">
+              <span>advanced operators · GHDB</span><span>70%</span>
+            </div>
+            <div class="skill-desc">
+              Using advanced search operators to discover exposed files, login
+              panels, config leaks, and sensitive data indexed by search
+              engines.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <section class="section">
+      <div class="section-inner">
+        <div class="section-label">// 03 — certificates</div>
+        <div class="section-title">Certs & <span>Labs</span></div>
+        <div class="certs-grid">
+          <div class="cert-card fade-in">
+            <div
+              class="cert-banner"
+              style="
+                background: linear-gradient(
+                  90deg,
+                  var(--accent3),
+                  var(--accent)
+                );
+              "
+            ></div>
+            <div class="cert-body">
+              <div class="cert-issuer-row">
+                <span class="cert-issuer">PortSwigger</span>
+                <span class="cert-status cs-earned">✓ active</span>
+              </div>
+              <div class="cert-title">Web Security Academy</div>
+              <div class="cert-desc">
+                Hands-on labs covering the OWASP Top 10 and beyond. Completed
+                labs across SQLi, XSS, CSRF, SSRF, XXE, SSTI, and authentication
+                vulnerabilities.
+              </div>
+              <div class="cert-tags">
+                <span class="tag tag-red">SQLi</span>
+                <span class="tag tag-blue">XSS</span>
+                <span class="tag tag-purple">CSRF</span>
+                <span class="tag tag-cyan">SSRF</span>
+                <span class="tag tag-yellow">SSTI</span>
+              </div>
+              <div class="cert-footer">
+                <span class="cert-date">ongoing · 2024–present</span>
+                <a
+                  href="https://portswigger.net/web-security"
+                  target="_blank"
+                  class="cert-link"
+                >
+                  platform
+                  <svg
+                    width="12"
+                    height="12"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <line x1="5" y1="12" x2="19" y2="12" />
+                    <polyline points="12 5 19 12 12 19" />
+                  </svg>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div class="cert-card fade-in" style="transition-delay: 0.1s">
+            <div
+              class="cert-banner"
+              style="background: linear-gradient(90deg, #c11111, #ff3c6e)"
+            ></div>
+            <div class="cert-body">
+              <div class="cert-issuer-row">
+                <span class="cert-issuer">TryHackMe</span>
+                <span class="cert-status cs-progress">⟳ in progress</span>
+              </div>
+              <div class="cert-title">Pre-Security Path</div>
+              <div class="cert-desc">
+                Structured learning path covering networking fundamentals, Linux
+                basics, web hacking fundamentals, and core security concepts
+                through gamified rooms.
+              </div>
+              <div class="progress-ring-wrap">
+                <svg class="pring" width="44" height="44" viewBox="0 0 44 44">
+                  <circle class="pring-bg" cx="22" cy="22" r="18" />
+                  <circle
+                    class="pring-fill"
+                    id="thm-ring"
+                    cx="22"
+                    cy="22"
+                    r="18"
+                    stroke-dasharray="113.1"
+                    stroke-dashoffset="45"
+                  />
+                </svg>
+                <div class="pring-label"><span>60%</span> complete</div>
+              </div>
+              <div class="cert-tags">
+                <span class="tag tag-red">networking</span>
+                <span class="tag tag-green">linux</span>
+                <span class="tag tag-blue">web hacking</span>
+              </div>
+              <div class="cert-footer">
+                <span class="cert-date">started 2024</span>
+                <a
+                  href="https://tryhackme.com"
+                  target="_blank"
+                  class="cert-link"
+                >
+                  platform
+                  <svg
+                    width="12"
+                    height="12"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <line x1="5" y1="12" x2="19" y2="12" />
+                    <polyline points="12 5 19 12 12 19" />
+                  </svg>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div class="cert-card fade-in" style="transition-delay: 0.2s">
+            <div
+              class="cert-banner"
+              style="
+                background: linear-gradient(90deg, var(--muted), var(--border));
+              "
+            ></div>
+            <div class="cert-body">
+              <div class="cert-issuer-row">
+                <span class="cert-issuer">EC-Council</span>
+                <span class="cert-status cs-planned">◌ planned</span>
+              </div>
+              <div class="cert-title">CEH — Certified Ethical Hacker</div>
+              <div class="cert-desc">
+                Globally recognized certification covering ethical hacking
+                methodology, attack phases, and defense mechanisms. On the 2025
+                roadmap.
+              </div>
+              <div class="cert-tags">
+                <span class="tag tag-yellow">2025 goal</span>
+                <span class="tag tag-purple">pentest</span>
+                <span class="tag tag-red">exploits</span>
+              </div>
+              <div class="cert-footer">
+                <span class="cert-date">target: late 2025</span>
+                <span class="cert-link disabled">not yet earned</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="cert-card fade-in" style="transition-delay: 0.3s">
+            <div
+              class="cert-banner"
+              style="
+                background: linear-gradient(90deg, var(--accent3), #5555ff);
+              "
+            ></div>
+            <div class="cert-body">
+              <div class="cert-issuer-row">
+                <span class="cert-issuer">eLearnSecurity</span>
+                <span class="cert-status cs-planned">◌ planned</span>
+              </div>
+              <div class="cert-title">eJPT — Junior Penetration Tester</div>
+              <div class="cert-desc">
+                Entry-level penetration testing certification with practical
+                exam format. Covers network attacks, web app testing, and basic
+                exploitation techniques.
+              </div>
+              <div class="cert-tags">
+                <span class="tag tag-yellow">2025 goal</span>
+                <span class="tag tag-cyan">pentest</span>
+                <span class="tag tag-blue">network</span>
+              </div>
+              <div class="cert-footer">
+                <span class="cert-date">target: mid 2025</span>
+                <span class="cert-link disabled">not yet earned</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <section class="section tools-section">
+      <div class="section-inner">
+        <div class="section-label">// 04 — tools</div>
+        <div class="section-title">Tools <span>I Use</span></div>
+        <div class="tools-categories">
+          <div class="fade-in">
+            <div class="tool-category-title">Exploitation & Testing</div>
+            <div class="tools-row">
+              <div class="tool-chip">
+                <div class="tool-chip-icon">🔍</div>
+                <div class="tool-chip-name">Burp Suite</div>
+                <span
+                  class="tag tag-cyan"
+                  style="font-size: 9px; padding: 2px 7px"
+                  >daily</span
+                >
+              </div>
+              <div class="tool-chip">
+                <div class="tool-chip-icon">🗡️</div>
+                <div class="tool-chip-name">SQLmap</div>
+                <span
+                  class="tag tag-blue"
+                  style="font-size: 9px; padding: 2px 7px"
+                  >regular</span
+                >
+              </div>
+              <div class="tool-chip">
+                <div class="tool-chip-icon">⚡</div>
+                <div class="tool-chip-name">ffuf</div>
+                <span
+                  class="tag tag-blue"
+                  style="font-size: 9px; padding: 2px 7px"
+                  >regular</span
+                >
+              </div>
+              <div class="tool-chip">
+                <div class="tool-chip-icon">🌊</div>
+                <div class="tool-chip-name">Nikto</div>
+                <span
+                  class="tag tag-purple"
+                  style="font-size: 9px; padding: 2px 7px"
+                  >occasional</span
+                >
+              </div>
+              <div class="tool-chip">
+                <div class="tool-chip-icon">🕷️</div>
+                <div class="tool-chip-name">OWASP ZAP</div>
+                <span
+                  class="tag tag-purple"
+                  style="font-size: 9px; padding: 2px 7px"
+                  >occasional</span
+                >
+              </div>
+            </div>
+          </div>
+
+          <div class="fade-in" style="transition-delay: 0.1s">
+            <div class="tool-category-title">Recon & Enumeration</div>
+            <div class="tools-row">
+              <div class="tool-chip">
+                <div class="tool-chip-icon">🔭</div>
+                <div class="tool-chip-name">Nmap</div>
+                <span
+                  class="tag tag-cyan"
+                  style="font-size: 9px; padding: 2px 7px"
+                  >daily</span
+                >
+              </div>
+              <div class="tool-chip">
+                <div class="tool-chip-icon">🌍</div>
+                <div class="tool-chip-name">Amass</div>
+                <span
+                  class="tag tag-blue"
+                  style="font-size: 9px; padding: 2px 7px"
+                  >regular</span
+                >
+              </div>
+              <div class="tool-chip">
+                <div class="tool-chip-icon">🔗</div>
+                <div class="tool-chip-name">Subfinder</div>
+                <span
+                  class="tag tag-blue"
+                  style="font-size: 9px; padding: 2px 7px"
+                  >regular</span
+                >
+              </div>
+              <div class="tool-chip">
+                <div class="tool-chip-icon">🌐</div>
+                <div class="tool-chip-name">Shodan</div>
+                <span
+                  class="tag tag-purple"
+                  style="font-size: 9px; padding: 2px 7px"
+                  >occasional</span
+                >
+              </div>
+              <div class="tool-chip">
+                <div class="tool-chip-icon">📡</div>
+                <div class="tool-chip-name">Whois</div>
+                <span
+                  class="tag tag-green"
+                  style="font-size: 9px; padding: 2px 7px"
+                  >regular</span
+                >
+              </div>
+            </div>
+          </div>
+
+          <div class="fade-in" style="transition-delay: 0.2s">
+            <div class="tool-category-title">Development & Scripting</div>
+            <div class="tools-row">
+              <div class="tool-chip">
+                <div class="tool-chip-icon">🐍</div>
+                <div class="tool-chip-name">Python 3</div>
+                <span
+                  class="tag tag-cyan"
+                  style="font-size: 9px; padding: 2px 7px"
+                  >daily</span
+                >
+              </div>
+              <div class="tool-chip">
+                <div class="tool-chip-icon">🖥️</div>
+                <div class="tool-chip-name">VS Code</div>
+                <span
+                  class="tag tag-cyan"
+                  style="font-size: 9px; padding: 2px 7px"
+                  >daily</span
+                >
+              </div>
+              <div class="tool-chip">
+                <div class="tool-chip-icon">🐙</div>
+                <div class="tool-chip-name">Git / GitHub</div>
+                <span
+                  class="tag tag-cyan"
+                  style="font-size: 9px; padding: 2px 7px"
+                  >daily</span
+                >
+              </div>
+              <div class="tool-chip">
+                <div class="tool-chip-icon">📝</div>
+                <div class="tool-chip-name">Bash</div>
+                <span
+                  class="tag tag-blue"
+                  style="font-size: 9px; padding: 2px 7px"
+                  >regular</span
+                >
+              </div>
+            </div>
+          </div>
+
+          <div class="fade-in" style="transition-delay: 0.3s">
+            <div class="tool-category-title">Platforms & Environments</div>
+            <div class="tools-row">
+              <div class="tool-chip">
+                <div class="tool-chip-icon">🐧</div>
+                <div class="tool-chip-name">Kali Linux</div>
+                <span
+                  class="tag tag-cyan"
+                  style="font-size: 9px; padding: 2px 7px"
+                  >primary OS</span
+                >
+              </div>
+              <div class="tool-chip">
+                <div class="tool-chip-icon">🎯</div>
+                <div class="tool-chip-name">TryHackMe</div>
+                <span
+                  class="tag tag-blue"
+                  style="font-size: 9px; padding: 2px 7px"
+                  >regular</span
+                >
+              </div>
+              <div class="tool-chip">
+                <div class="tool-chip-icon">🔬</div>
+                <div class="tool-chip-name">PortSwigger Labs</div>
+                <span
+                  class="tag tag-cyan"
+                  style="font-size: 9px; padding: 2px 7px"
+                  >daily</span
+                >
+              </div>
+              <div class="tool-chip">
+                <div class="tool-chip-icon">🖥️</div>
+                <div class="tool-chip-name">VirtualBox</div>
+                <span
+                  class="tag tag-purple"
+                  style="font-size: 9px; padding: 2px 7px"
+                  >occasional</span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <section class="section path-section">
+      <div class="section-inner">
+        <div class="section-label">// 05 — roadmap</div>
+        <div class="section-title">Learning <span>Path</span></div>
+        <div
+          style="
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 48px;
+            align-items: start;
+          "
+        >
+          <div class="timeline fade-in">
+            <div class="timeline-item tl-done">
+              <div class="tl-dot"><div class="tl-dot-inner"></div></div>
+              <div class="tl-card">
+                <div class="tl-label">✓ completed</div>
+                <div class="tl-title">Web Security Foundations</div>
+                <div class="tl-desc">
+                  HTTP deep dive, OWASP Top 10 theory, PortSwigger lab
+                  environment setup and initial SQLi / XSS labs.
+                </div>
+              </div>
+            </div>
+            <div class="timeline-item tl-done">
+              <div class="tl-dot"><div class="tl-dot-inner"></div></div>
+              <div class="tl-card">
+                <div class="tl-label">✓ completed</div>
+                <div class="tl-title">Python for Security</div>
+                <div class="tl-desc">
+                  Built the web vulnerability scanner, HTTP request automation
+                  scripts, and payload generation tools.
+                </div>
+              </div>
+            </div>
+            <div class="timeline-item tl-now">
+              <div class="tl-dot"><div class="tl-dot-inner"></div></div>
+              <div class="tl-card">
+                <div class="tl-label">⟳ now — active</div>
+                <div class="tl-title">Advanced Web Exploitation</div>
+                <div class="tl-desc">
+                  SSTI, deserialization, OAuth flaws, CORS misconfigurations,
+                  and advanced PortSwigger expert labs.
+                </div>
+              </div>
+            </div>
+            <div class="timeline-item tl-next">
+              <div class="tl-dot"><div class="tl-dot-inner"></div></div>
+              <div class="tl-card">
+                <div class="tl-label">◌ upcoming</div>
+                <div class="tl-title">eJPT Certification</div>
+                <div class="tl-desc">
+                  Complete eLearnSecurity Junior Penetration Tester
+                  certification — practical exam with full pentest lab.
+                </div>
+              </div>
+            </div>
+            <div class="timeline-item tl-next">
+              <div class="tl-dot"><div class="tl-dot-inner"></div></div>
+              <div class="tl-card">
+                <div class="tl-label">◌ upcoming</div>
+                <div class="tl-title">Active Bug Bounty</div>
+                <div class="tl-desc">
+                  Submit first valid reports on HackerOne / Bugcrowd programs.
+                  Focus on recon-heavy, low-to-medium severity bugs.
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="timeline fade-in" style="transition-delay: 0.15s">
+            <div class="timeline-item tl-next">
+              <div class="tl-dot"><div class="tl-dot-inner"></div></div>
+              <div class="tl-card">
+                <div class="tl-label">◌ upcoming</div>
+                <div class="tl-title">Network Penetration Testing</div>
+                <div class="tl-desc">
+                  Active directory attacks, pivoting, privilege escalation in
+                  networked environments using Metasploit and manual methods.
+                </div>
+              </div>
+            </div>
+            <div class="timeline-item tl-next">
+              <div class="tl-dot"><div class="tl-dot-inner"></div></div>
+              <div class="tl-card">
+                <div class="tl-label">◌ upcoming</div>
+                <div class="tl-title">CEH Certification</div>
+                <div class="tl-desc">
+                  EC-Council Certified Ethical Hacker — formal methodology,
+                  legal frameworks, and structured pentest process coverage.
+                </div>
+              </div>
+            </div>
+            <div class="timeline-item tl-next">
+              <div class="tl-dot"><div class="tl-dot-inner"></div></div>
+              <div class="tl-card">
+                <div class="tl-label">◌ future</div>
+                <div class="tl-title">OSCP</div>
+                <div class="tl-desc">
+                  Offensive Security Certified Professional — the gold standard
+                  for hands-on penetration testing. Long-term goal.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="foot-left">
+        © 2026 <span>liketosweep</span> — all rights reserved
+      </div>
+      <div class="foot-right">
+        <a href="https://github.com/liketosweep" target="_blank">github</a>
+        <a href="https://www.instagram.com/liketosweep/" target="_blank"
+          >instagram</a
+        >
+        <a href="mailto:ltsworkspace9239@gmail.com">email</a>
+      </div>
+    </footer>
+
+    <script>
+      // Cursor
+      const cursor = document.getElementById("cursor");
+      const ring = document.getElementById("cursor-ring");
+      let mx = 0,
+        my = 0,
+        rx = 0,
+        ry = 0;
+      document.addEventListener("mousemove", (e) => {
+        mx = e.clientX;
+        my = e.clientY;
+      });
+      (function animateCursor() {
+        cursor.style.left = mx + "px";
+        cursor.style.top = my + "px";
+        rx += (mx - rx) * 0.12;
+        ry += (my - ry) * 0.12;
+        ring.style.left = rx + "px";
+        ring.style.top = ry + "px";
+        requestAnimationFrame(animateCursor);
+      })();
+
+      // Tabs
+      document.querySelectorAll(".tab-btn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          document
+            .querySelectorAll(".tab-btn")
+            .forEach((b) => b.classList.remove("active"));
+          document
+            .querySelectorAll(".skills-panel")
+            .forEach((p) => p.classList.remove("active"));
+          btn.classList.add("active");
+          const panel = document.getElementById("panel-" + btn.dataset.tab);
+          panel.classList.add("active");
+          panel.querySelectorAll(".skill-card").forEach((c) => {
+            if (!c.classList.contains("visible")) {
+              c.classList.remove("fade-in");
+              void c.offsetWidth;
+              c.classList.add("fade-in");
+            }
+          });
+          setTimeout(() => {
+            panel
+              .querySelectorAll(".skill-card")
+              .forEach((c) => c.classList.add("visible"));
+          }, 60);
+        });
+      });
+
+      // Radar SVG
+      (function buildRadar() {
+        const svg = document.getElementById("radar-svg");
+        const cx = 140,
+          cy = 140,
+          maxR = 100;
+        const labels = [
+          "Web Exploit",
+          "Python",
+          "Linux",
+          "Bug Bounty",
+          "Recon",
+          "Network",
+        ];
+        const values = [82, 78, 74, 68, 65, 60];
+        const n = labels.length;
+        const colors = [
+          "#ff3c6e",
+          "#00f5c4",
+          "#0af",
+          "#ffbe2e",
+          "#a78bfa",
+          "#29cb42",
+        ];
+        const ns = (s) =>
+          document.createElementNS("http://www.w3.org/2000/svg", s);
+
+        // grid rings
+        [0.2, 0.4, 0.6, 0.8, 1].forEach((f) => {
+          const poly = ns("polygon");
+          const pts = Array.from({ length: n }, (_, i) => {
+            const a = (i / n) * Math.PI * 2 - Math.PI / 2;
+            return `${cx + Math.cos(a) * maxR * f},${cy + Math.sin(a) * maxR * f}`;
+          }).join(" ");
+          poly.setAttribute("points", pts);
+          poly.setAttribute("fill", "none");
+          poly.setAttribute("stroke", "#1a2a44");
+          poly.setAttribute("stroke-width", "1");
+          svg.appendChild(poly);
+        });
+
+        // axis lines
+        for (let i = 0; i < n; i++) {
+          const a = (i / n) * Math.PI * 2 - Math.PI / 2;
+          const line = ns("line");
+          line.setAttribute("x1", cx);
+          line.setAttribute("y1", cy);
+          line.setAttribute("x2", cx + Math.cos(a) * maxR);
+          line.setAttribute("y2", cy + Math.sin(a) * maxR);
+          line.setAttribute("stroke", "#1a2a44");
+          line.setAttribute("stroke-width", "1");
+          svg.appendChild(line);
+        }
+
+        // filled area
+        const pts = values
+          .map((v, i) => {
+            const a = (i / n) * Math.PI * 2 - Math.PI / 2;
+            const r = maxR * (v / 100);
+            return `${cx + Math.cos(a) * r},${cy + Math.sin(a) * r}`;
+          })
+          .join(" ");
+        const area = ns("polygon");
+        area.setAttribute("points", pts);
+        area.setAttribute("fill", "rgba(0,245,196,0.08)");
+        area.setAttribute("stroke", "rgba(0,245,196,0.5)");
+        area.setAttribute("stroke-width", "1.5");
+        svg.appendChild(area);
+
+        // dots + labels
+        values.forEach((v, i) => {
+          const a = (i / n) * Math.PI * 2 - Math.PI / 2;
+          const r = maxR * (v / 100);
+          const dot = ns("circle");
+          dot.setAttribute("cx", cx + Math.cos(a) * r);
+          dot.setAttribute("cy", cy + Math.sin(a) * r);
+          dot.setAttribute("r", "4");
+          dot.setAttribute("fill", colors[i]);
+          svg.appendChild(dot);
+
+          const la = (i / n) * Math.PI * 2 - Math.PI / 2;
+          const lr = maxR + 22;
+          const lx = cx + Math.cos(la) * lr;
+          const ly = cy + Math.sin(la) * lr;
+          const txt = ns("text");
+          txt.setAttribute("x", lx);
+          txt.setAttribute("y", ly);
+          txt.setAttribute("text-anchor", "middle");
+          txt.setAttribute("dominant-baseline", "middle");
+          txt.setAttribute("fill", "#4a6080");
+          txt.setAttribute("font-family", "'Share Tech Mono',monospace");
+          txt.setAttribute("font-size", "9");
+          txt.textContent = labels[i];
+          svg.appendChild(txt);
+        });
+      })();
+
+      // Intersection observer — fade-in + skill bars + domain bars
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting) {
+              e.target.classList.add("visible");
+              observer.unobserve(e.target);
+            }
+          });
+        },
+        { threshold: 0.12 },
+      );
+      document
+        .querySelectorAll(".fade-in, .skill-card, .domain-item")
+        .forEach((el) => observer.observe(el));
+
+      // Trigger visible on initial active panel cards
+      setTimeout(() => {
+        document
+          .querySelectorAll("#panel-offensive .skill-card")
+          .forEach((c) => c.classList.add("visible"));
+      }, 400);
+    </script>
+  </body>
+</html>

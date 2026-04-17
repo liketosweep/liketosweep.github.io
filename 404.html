@@ -9,6 +9,11 @@
       rel="stylesheet"
     />
     <style>
+      :root {
+        --accent: #00f5c4;
+        --accent2: #0af;
+      }
+
       body {
         background-color: #050810;
         color: #ff3c6e; /* Danger Red */
@@ -21,8 +26,44 @@
         margin: 0;
         overflow: hidden;
         text-align: center;
+      }
+
+      /* CUSTOM CURSOR STYLES */
+      #cursor {
+        position: fixed;
+        width: 12px;
+        height: 12px;
+        background: var(--accent);
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 9999;
+        transform: translate(-50%, -50%);
+        mix-blend-mode: screen;
+      }
+      #cursor-ring {
+        position: fixed;
+        width: 36px;
+        height: 36px;
+        border: 1px solid var(--accent2);
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 9998;
+        transform: translate(-50%, -50%);
+        opacity: 0.5;
+      }
+
+      /* THE NUCLEAR OVERRIDE */
+      *,
+      *::before,
+      *::after,
+      a,
+      a:hover,
+      button,
+      body,
+      html {
         cursor: none !important;
       }
+
       .glitch {
         font-size: 5rem;
         font-weight: bold;
@@ -34,6 +75,7 @@
           0.025em 0.05em 0 #ffbe2e;
         animation: glitch 500ms infinite;
       }
+
       @keyframes glitch {
         0% {
           text-shadow:
@@ -78,11 +120,13 @@
             -0.025em -0.05em 0 #ffbe2e;
         }
       }
+
       .msg {
         margin-top: 20px;
         color: #c8d8f0;
         font-size: 1.2rem;
       }
+
       .back-link {
         margin-top: 40px;
         color: #00f5c4;
@@ -90,6 +134,8 @@
         border: 1px solid #00f5c4;
         padding: 10px 20px;
         transition: all 0.3s;
+        position: relative;
+        z-index: 10;
       }
       .back-link:hover {
         background: rgba(0, 245, 196, 0.1);
@@ -97,11 +143,39 @@
     </style>
   </head>
   <body>
+    <div id="cursor"></div>
+    <div id="cursor-ring"></div>
+
     <div class="glitch">404</div>
     <div class="msg">CRITICAL_ERROR: REQUESTED_RESOURCE_NOT_FOUND</div>
     <div class="msg" style="font-size: 0.9rem; opacity: 0.7">
       Location traced. Log generated.
     </div>
     <a href="index.html" class="back-link">[ RETURN_TO_DASHBOARD ]</a>
+
+    <script>
+      const cursor = document.getElementById("cursor");
+      const ring = document.getElementById("cursor-ring");
+      let mx = 0,
+        my = 0,
+        rx = 0,
+        ry = 0;
+
+      document.addEventListener("mousemove", (e) => {
+        mx = e.clientX;
+        my = e.clientY;
+      });
+
+      function animate() {
+        cursor.style.left = mx + "px";
+        cursor.style.top = my + "px";
+        rx += (mx - rx) * 0.12;
+        ry += (my - ry) * 0.12;
+        ring.style.left = rx + "px";
+        ring.style.top = ry + "px";
+        requestAnimationFrame(animate);
+      }
+      animate();
+    </script>
   </body>
 </html>

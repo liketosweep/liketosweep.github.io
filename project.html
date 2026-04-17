@@ -340,83 +340,97 @@
 <div class="section-divider"></div>
 
 <section class="section">
-  <div class="section-inner">
-    <div class="section-label">// 02 — security & algorithms</div>
-    <div class="section-title">The <span>Arsenal</span></div>
-    <div class="repos-grid">
-
-      <div class="repo-card fade-in">
-        <div class="repo-card-head">
-          <div class="repo-icon">🛡️</div>
-          <div class="repo-meta">
-            <div class="repo-name"><a href="https://github.com/liketosweep/web-vulnerability-scanner" target="_blank">Web Vuln Scanner</a></div>
-            <div class="repo-visibility"><div class="repo-visibility-dot"></div>Python</div>
-          </div>
-        </div>
-        <div class="repo-body">
-          <div class="repo-desc">Automated security tool designed to scan targets for common web vulnerabilities including SQLi, XSS, and open redirects. Generates actionable mitigation reports.</div>
-          <div class="repo-tags">
-            <span class="tag tag-cyan">Python</span>
-            <span class="tag tag-blue">HTTP</span>
-            <span class="tag tag-red">Security</span>
-          </div>
-        </div>
-        <div class="repo-footer">
-          <a href="https://github.com/liketosweep/web-vulnerability-scanner" target="_blank" class="repo-link">
-            view repository
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-          </a>
-        </div>
+<div class="projects-grid" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; margin: 40px auto 0; max-width: 1200px; width: 100%;">
+  
+  <div class="repo-card fade-in" style="transition-delay:.1s; border-color: rgba(0,245,196,.3); border-radius: 12px; padding: 20px 28px; display: flex; flex-direction: column; transition: all 0.3s ease;" onmouseover="this.style.borderColor='#00f5c4'; this.style.boxShadow='0 0 20px rgba(0,245,196,0.15)';" onmouseout="this.style.borderColor='rgba(0,245,196,.3)'; this.style.boxShadow='none';">
+    <div class="repo-card-head">
+      <div class="repo-icon" style="font-size: 20px;">📦</div>
+      <div class="repo-meta">
+        <div class="repo-name"><a href="https://github.com/liketosweep/recon-toolkit" target="_blank" style="cursor: none !important; font-size: 20px; font-weight: bold; text-transform: uppercase; text-decoration: underline; text-underline-offset: 6px; text-decoration-color: #00f5c4; color: #fff;">recon-toolkit</a></div>
+        <div class="repo-visibility" style="margin-top: 4px; font-size: 13px;"><div class="repo-visibility-dot"></div>Maintainer</div>
       </div>
-
-      <div class="repo-card fade-in" style="transition-delay:.1s">
-        <div class="repo-card-head">
-          <div class="repo-icon">🔬</div>
-          <div class="repo-meta">
-            <div class="repo-name"><a href="https://github.com/liketosweep/Portswigger-labs" target="_blank">PortSwigger Labs</a></div>
-            <div class="repo-visibility"><div class="repo-visibility-dot" style="background:#a78bfa"></div>Research</div>
-          </div>
-        </div>
-        <div class="repo-body">
-          <div class="repo-desc">A comprehensive, continuously updated collection of write-ups for the OWASP Top 10 vulnerabilities. Includes custom attack methodologies, bypass techniques, and BurpSuite payloads.</div>
-          <div class="repo-tags">
-            <span class="tag tag-purple">BurpSuite</span>
-            <span class="tag tag-red">Web Exploitation</span>
-          </div>
-        </div>
-        <div class="repo-footer">
-          <a href="https://github.com/liketosweep/Portswigger-labs" target="_blank" class="repo-link">
-            view write-ups
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-          </a>
-        </div>
+    </div>
+    <div class="repo-body" style="margin-top: 12px; flex-grow: 1;">
+      <div class="repo-desc" style="font-size: 15px; line-height: 1.5;">Architected an asynchronous web reconnaissance framework. Transitioned from synchronous I/O to a concurrent engine to streamline target profiling and reduce average network scan times.</div>
+      <div class="repo-tags" style="margin-top: 12px;">
+        <span class="tag tag-cyan" style="font-size: 12px; padding: 4px 10px;">Python</span>
+        <span class="tag tag-blue" style="font-size: 12px; padding: 4px 10px;">Docker</span>
+        <span class="tag tag-purple" style="font-size: 12px; padding: 4px 10px;">Security</span>
       </div>
-
-      <div class="repo-card fade-in" style="transition-delay:.2s">
-        <div class="repo-card-head">
-          <div class="repo-icon">⚡</div>
-          <div class="repo-meta">
-            <div class="repo-name"><a href="https://github.com/liketosweep" target="_blank">Algorithm Engineering</a></div>
-            <div class="repo-visibility"><div class="repo-visibility-dot" style="background:#29cb42"></div>Core</div>
-          </div>
-        </div>
-        <div class="repo-body">
-          <div class="repo-desc">My personal database of Data Structures and Algorithms. Focuses on optimized solutions for graph traversals, dynamic programming, and big-O space/time complexity analysis.</div>
-          <div class="repo-tags">
-            <span class="tag tag-green">Algorithms</span>
-            <span class="tag tag-yellow">Data Structures</span>
-          </div>
-        </div>
-        <div class="repo-footer">
-          <a href="https://github.com/liketosweep" target="_blank" class="repo-link">
-            view repository
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-          </a>
-        </div>
-      </div>
-
+    </div>
+    <div class="repo-footer" style="margin-top: auto; padding-top: 12px; border-top: 1px solid rgba(255, 255, 255, 0.05);">
+      <div class="repo-stars" style="color: #4a6080; font-family: 'Share Tech Mono', monospace; font-size: 12px;">Reconnaissance</div>
+      <a href="https://github.com/liketosweep/recon-toolkit" target="_blank" class="repo-link" style="cursor: none !important; font-size: 14px;">view repository <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
     </div>
   </div>
+
+  <div class="repo-card fade-in" style="transition-delay:.2s; border-color: rgba(0,245,196,.3); border-radius: 12px; padding: 20px 28px; display: flex; flex-direction: column; transition: all 0.3s ease;" onmouseover="this.style.borderColor='#00f5c4'; this.style.boxShadow='0 0 20px rgba(0,245,196,0.15)';" onmouseout="this.style.borderColor='rgba(0,245,196,.3)'; this.style.boxShadow='none';">
+    <div class="repo-card-head">
+      <div class="repo-icon" style="font-size: 20px;">🕷️</div>
+      <div class="repo-meta">
+        <div class="repo-name"><a href="https://github.com/liketosweep/web-vulnerability-scanner" target="_blank" style="cursor: none !important; font-size: 20px; font-weight: bold; text-transform: uppercase; text-decoration: underline; text-underline-offset: 6px; text-decoration-color: #00f5c4; color: #fff;">web-vulnerability-scanner</a></div>
+        <div class="repo-visibility" style="margin-top: 4px; font-size: 13px;"><div class="repo-visibility-dot"></div>Maintainer</div>
+      </div>
+    </div>
+    <div class="repo-body" style="margin-top: 12px; flex-grow: 1;">
+      <div class="repo-desc" style="font-size: 15px; line-height: 1.5;">Developed a custom automated tool to perform initial reconnaissance and detect common vulnerabilities across the attack surface of target web applications.</div>
+      <div class="repo-tags" style="margin-top: 12px;">
+        <span class="tag tag-cyan" style="font-size: 12px; padding: 4px 10px;">Python</span>
+        <span class="tag tag-blue" style="font-size: 12px; padding: 4px 10px;">Automation</span>
+        <span class="tag tag-purple" style="font-size: 12px; padding: 4px 10px;">DAST</span>
+      </div>
+    </div>
+    <div class="repo-footer" style="margin-top: auto; padding-top: 12px; border-top: 1px solid rgba(255, 255, 255, 0.05);">
+      <div class="repo-stars" style="color: #4a6080; font-family: 'Share Tech Mono', monospace; font-size: 12px;">Vulnerability Scanning</div>
+      <a href="https://github.com/liketosweep/web-vulnerability-scanner" target="_blank" class="repo-link" style="cursor: none !important; font-size: 14px;">view repository <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+    </div>
+  </div>
+
+  <div class="repo-card fade-in" style="transition-delay:.3s; border-color: rgba(0,245,196,.3); border-radius: 12px; padding: 20px 28px; display: flex; flex-direction: column; transition: all 0.3s ease;" onmouseover="this.style.borderColor='#00f5c4'; this.style.boxShadow='0 0 20px rgba(0,245,196,0.15)';" onmouseout="this.style.borderColor='rgba(0,245,196,.3)'; this.style.boxShadow='none';">
+    <div class="repo-card-head">
+      <div class="repo-icon" style="font-size: 20px;">🔍</div>
+      <div class="repo-meta">
+        <div class="repo-name"><a href="https://github.com/liketosweep/subdomain_enumerator" target="_blank" style="cursor: none !important; font-size: 20px; font-weight: bold; text-transform: uppercase; text-decoration: underline; text-underline-offset: 6px; text-decoration-color: #00f5c4; color: #fff;">subdomain_enumerator</a></div>
+        <div class="repo-visibility" style="margin-top: 4px; font-size: 13px;"><div class="repo-visibility-dot"></div>Maintainer</div>
+      </div>
+    </div>
+    <div class="repo-body" style="margin-top: 12px; flex-grow: 1;">
+      <div class="repo-desc" style="font-size: 15px; line-height: 1.5;">Built an OSINT tool to systematically discover valid subdomains for a target domain, effectively mapping out hidden infrastructure and expanding the testing scope.</div>
+      <div class="repo-tags" style="margin-top: 12px;">
+        <span class="tag tag-cyan" style="font-size: 12px; padding: 4px 10px;">Python</span>
+        <span class="tag tag-blue" style="font-size: 12px; padding: 4px 10px;">OSINT</span>
+        <span class="tag tag-purple" style="font-size: 12px; padding: 4px 10px;">Networking</span>
+      </div>
+    </div>
+    <div class="repo-footer" style="margin-top: auto; padding-top: 12px; border-top: 1px solid rgba(255, 255, 255, 0.05);">
+      <div class="repo-stars" style="color: #4a6080; font-family: 'Share Tech Mono', monospace; font-size: 12px;">Enumeration</div>
+      <a href="https://github.com/liketosweep/subdomain_enumerator" target="_blank" class="repo-link" style="cursor: none !important; font-size: 14px;">view repository <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+    </div>
+  </div>
+
+  <div class="repo-card fade-in" style="transition-delay:.4s; border-color: rgba(0,245,196,.3); border-radius: 12px; padding: 20px 28px; display: flex; flex-direction: column; transition: all 0.3s ease;" onmouseover="this.style.borderColor='#00f5c4'; this.style.boxShadow='0 0 20px rgba(0,245,196,0.15)';" onmouseout="this.style.borderColor='rgba(0,245,196,.3)'; this.style.boxShadow='none';">
+    <div class="repo-card-head">
+      <div class="repo-icon" style="font-size: 20px;">🧪</div>
+      <div class="repo-meta">
+        <div class="repo-name"><a href="https://github.com/liketosweep/Portswigger-labs" target="_blank" style="cursor: none !important; font-size: 20px; font-weight: bold; text-transform: uppercase; text-decoration: underline; text-underline-offset: 6px; text-decoration-color: #00f5c4; color: #fff;">Portswigger-labs</a></div>
+        <div class="repo-visibility" style="margin-top: 4px; font-size: 13px;"><div class="repo-visibility-dot"></div>Researcher</div>
+      </div>
+    </div>
+    <div class="repo-body" style="margin-top: 12px; flex-grow: 1;">
+      <div class="repo-desc" style="font-size: 15px; line-height: 1.5;">A comprehensive log of writeups, exploit scripts, and methodologies developed while solving advanced web vulnerabilities in the PortSwigger Web Security Academy.</div>
+      <div class="repo-tags" style="margin-top: 12px;">
+        <span class="tag tag-cyan" style="font-size: 12px; padding: 4px 10px;">Web Exploitation</span>
+        <span class="tag tag-blue" style="font-size: 12px; padding: 4px 10px;">Burp Suite</span>
+        <span class="tag tag-purple" style="font-size: 12px; padding: 4px 10px;">Writeups</span>
+      </div>
+    </div>
+    <div class="repo-footer" style="margin-top: auto; padding-top: 12px; border-top: 1px solid rgba(255, 255, 255, 0.05);">
+      <div class="repo-stars" style="color: #4a6080; font-family: 'Share Tech Mono', monospace; font-size: 12px;">Intel / Research</div>
+      <a href="https://github.com/liketosweep/Portswigger-labs" target="_blank" class="repo-link" style="cursor: none !important; font-size: 14px;">view repository <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+    </div>
+  </div>
+
+</div>
 </section>
 
 <footer style="margin-top: 40px; padding: 32px 48px; border-top: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; font-family: var(--mono); font-size: 11px; color: var(--muted);">

@@ -1,0 +1,8 @@
+# Standardized security contact information
+# See https://securitytxt.org/ for details
+
+Contact: mailto:ltsworkspace9239@gmail.com
+Expires: 2027-01-01T00:00:00.000Z
+Hiring: https://liketosweep.github.io/#contact
+Preferred-Languages: en
+Canonical: https://liketosweep.github.io/.well-known/security.txt

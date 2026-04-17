@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+<>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>liketosweep | Security Researcher</title>
@@ -668,6 +668,32 @@
     footer { padding: 24px; flex-direction: column; gap: 12px; text-align: center; }
     .section-divider { margin: 0 24px; }
     .hero-btns { flex-direction: column; align-items: flex-start; }
+  }
+</style>
+<style>
+  /* This uses the absolute highest specificity and targets every interactive element.
+    Because it is directly in the HTML, it ignores the CSS cache.
+  */
+  *,
+  *::before,
+  *::after,
+  html,
+  body,
+  a,
+  a:hover,
+  button,
+  button:hover,
+  input,
+  input:hover,
+  input:focus,
+  textarea,
+  textarea:hover,
+  textarea:focus,
+  .projects-gateway-link,
+  .projects-gateway,
+  .contact-card,
+  .submit-btn {
+    cursor: none !important;
   }
 </style>
 </head>

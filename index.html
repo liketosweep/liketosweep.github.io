@@ -683,7 +683,7 @@
   <ul class="nav-links">
     <li><a href="index.html#home">home</a></li>
     <li><a href="open-source.html" style="color: #bd93f9; font-weight: bold;">open source</a></li>
-    <li><a href="index.html#projects">projects</a></li>
+    <li><a href="project.html">projects</a></li>
     <li><a href="index.html#skills">skills</a></li>
     <li><a href="index.html#contact">contact</a></li>
   </ul>
@@ -745,88 +745,152 @@
 
 <div class="section-divider"></div>
 
-<!-- PROJECTS -->
-<section id="projects">
-  <div class="section-inner">
-    <div class="section-label">// 01 — projects</div>
-    <div class="section-title">What I've <span>Built</span></div>
-    <div class="projects-grid">
+<style>
+  /* These styles are specifically scoped to this gateway element 
+     to ensure it looks perfect within your home page grid. 
+  */
+  .projects-gateway-link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    transition: transform .3s, border-color .3s, box-shadow .3s;
+    cursor: pointer;
+    overflow: hidden;
+    height: 100%; /* Crucial to fill its grid space */
+  }
 
-      <div class="project-card fade-in">
-        <div class="card-header">
-          <div class="card-icon">🔬</div>
-          <div class="card-title-group">
-            <div class="card-title">PortSwigger Labs</div>
-            <div class="card-lang">OWASP · BurpSuite</div>
-          </div>
-        </div>
-        <div class="card-body">
-          <div class="card-desc">Comprehensive collection of solved web security labs with detailed write-ups, payloads, and documented attack methodologies.</div>
-          <div class="card-tags">
-            <span class="tag tag-red">SQLi</span>
-            <span class="tag tag-blue">XSS</span>
-            <span class="tag tag-purple">CSRF</span>
-            <span class="tag tag-cyan">SSRF</span>
-            <span class="tag tag-green">XXE</span>
-          </div>
-          <a href="https://github.com/liketosweep/Portswigger-labs" target="_blank" class="card-link">
-            view on github
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-          </a>
-        </div>
-      </div>
+  .projects-gateway-link:hover {
+    transform: translateY(-5px) scale(1.01);
+  }
 
-      <div class="project-card fade-in" style="transition-delay: 0.1s">
-        <div class="card-header">
-          <div class="card-icon">🛡️</div>
-          <div class="card-title-group">
-            <div class="card-title">Web Vuln Scanner</div>
-            <div class="card-lang">Python · HTTP</div>
-          </div>
-        </div>
-        <div class="card-body">
-          <div class="card-desc">Automated scanner that detects common web vulnerabilities and generates detailed reports with severity ratings and remediation steps.</div>
-          <div class="card-tags">
-            <span class="tag tag-cyan">Python</span>
-            <span class="tag tag-blue">HTTP</span>
-            <span class="tag tag-red">Scanning</span>
-            <span class="tag tag-purple">Reports</span>
-          </div>
-          <a href="https://github.com/liketosweep/web-vulnerability-scanner" target="_blank" class="card-link">
-            view on github
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-          </a>
-        </div>
-      </div>
+  /* The actual visual container, styled like your new 'open-source' cards */
+  .projects-gateway {
+    background: #0d1526; /* Matches --surface */
+    border: 1px solid #1a2a44; /* Matches --border */
+    border-radius: 8px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    transition: border-color .3s, box-shadow .3s;
+  }
 
-      <div class="project-card fade-in" style="transition-delay: 0.2s">
-        <div class="card-header">
-          <div class="card-icon">⚡</div>
-          <div class="card-title-group">
-            <div class="card-title">Algorithm Practice</div>
-            <div class="card-lang">Python · DSA</div>
-          </div>
-        </div>
-        <div class="card-body">
-          <div class="card-desc">Solutions and annotated notes for data structures and algorithms — from sorting to graph traversal, with complexity analysis.</div>
-          <div class="card-tags">
-            <span class="tag tag-green">Python</span>
-            <span class="tag tag-blue">DSA</span>
-            <span class="tag tag-purple">Graphs</span>
-            <span class="tag tag-cyan">DP</span>
-          </div>
-          <a href="https://github.com/liketosweep" target="_blank" class="card-link">
-            view on github
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-          </a>
-        </div>
-      </div>
+  .projects-gateway-link:hover .projects-gateway {
+    border-color: #00f5c4; /* Matches --accent */
+    box-shadow: 0 0 30px rgba(0,245,196,.15), 0 10px 40px rgba(0,0,0,0.4);
+  }
 
+  /* Gateway Header - Styled like your new terminal top bars */
+  .gateway-header {
+    background: #111c33; /* Matches --surface2 */
+    padding: 12px 20px;
+    border-bottom: 1px solid #1a2a44;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .pulse-dot-green {
+    width: 8px; height: 8px;
+    background: #00f5c4; border-radius: 50%;
+    animation: pulse-gateway 2s infinite;
+  }
+
+  .gateway-label {
+    font-family: 'Share Tech Mono', monospace; /* Matches --mono */
+    font-size: 11px;
+    color: #4a6080; /* Matches --muted */
+    letter-spacing: .1em;
+  }
+
+  /* Gateway Body */
+  .gateway-body {
+    padding: 40px 30px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .gateway-icon {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #00f5c4;
+  }
+
+  .gateway-title {
+    font-family: 'Orbitron', sans-serif; /* Matches --display */
+    font-size: clamp(1.8rem, 4vw, 2.5rem);
+    color: #fff;
+    font-weight: 700;
+    line-height: 1.1;
+    margin-bottom: 12px;
+  }
+
+  .gateway-desc {
+    font-family: 'Rajdhani', sans-serif; /* Matches --body */
+    font-size: 16px;
+    color: #a0aabf;
+    line-height: 1.6;
+    max-width: 320px;
+  }
+
+  /* Gateway Footer - The call-to-action bar */
+  .gateway-footer {
+    padding: 16px 24px;
+    border-top: 1px solid #1a2a44;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: #00f5c4;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 13px;
+    letter-spacing: .1em;
+    transition: padding .3s, color .3s;
+  }
+
+  .projects-gateway-link:hover .gateway-footer {
+    padding-right: 32px;
+    color: #ff79c6; /* Pink accent hover color from open-source page */
+  }
+
+  /* Arrow animation */
+  .gateway-footer svg {
+    transition: transform .3s;
+  }
+  .projects-gateway-link:hover .gateway-footer svg {
+    transform: translateX(6px);
+  }
+
+  @keyframes pulse-gateway {
+    0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(0,245,196,0.4); }
+    50% { opacity: .5; box-shadow: 0 0 0 6px rgba(0,245,196,0); }
+  }
+</style>
+
+<a href="project.html" class="projects-gateway-link fade-in" title="View Full Toolkit Registry">
+  <div class="projects-gateway">
+    <div class="gateway-header">
+      <div class="pulse-dot-green"></div>
+      <span class="gateway-label">SECURE_ACCESS::PROJECTS_DB</span>
+    </div>
+    
+    <div class="gateway-body">
+      <div class="gateway-icon">📦</div>
+      <h3 class="gateway-title">Engineering Arsenal</h3>
+      <p class="gateway-desc">Explore containerized security tools, infrastructure research, and case studies.</p>
+    </div>
+    
+    <div class="gateway-footer">
+      <span>[ ENTER_ARCHIVES_ ]</span>
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="5" y1="12" x2="19" y2="12"></line>
+        <polyline points="12 5 19 12 12 19"></polyline>
+      </svg>
     </div>
   </div>
-</section>
+</a>
 
-<div class="section-divider"></div>
+
 
 <!-- SKILLS -->
 <section id="skills">

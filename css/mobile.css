@@ -1,0 +1,454 @@
+/* ============================================================
+   mobile.css  v3  —  liketosweep.github.io
+   Nuclear approach: targets HTML elements directly, not just
+   class names. Works even when class names are unknown.
+
+   PLACE IN:  css/mobile.css
+   ADD TO EVERY HTML <head>, LAST stylesheet:
+   <link rel="stylesheet" href="css/mobile.css">
+   ============================================================ */
+
+/* ══════════════════════════════════════════════════════════
+   LAYER 0  —  ALWAYS-ON (all screen sizes, belt+suspenders)
+   ══════════════════════════════════════════════════════════ */
+
+*, *::before, *::after {
+  box-sizing: border-box !important;
+}
+
+html {
+  overflow-x: hidden !important;
+}
+
+body {
+  overflow-x: hidden !important;
+  max-width: 100vw !important;
+  position: relative !important;
+}
+
+/* All images/media stay in bounds */
+img, video, svg, canvas, iframe, embed {
+  max-width: 100% !important;
+  height: auto;
+}
+
+/* ══════════════════════════════════════════════════════════
+   HAMBURGER  —  injected by mobile-nav.js
+   ══════════════════════════════════════════════════════════ */
+.mob-hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  width: 38px;
+  height: 38px;
+  padding: 0;
+  background: transparent;
+  border: 1px solid #00ff9d;
+  cursor: pointer;
+  z-index: 99999;
+  flex-shrink: 0;
+}
+
+.mob-hamburger span {
+  display: block;
+  width: 18px;
+  height: 2px;
+  background: #00ff9d;
+  transition: transform 0.3s, opacity 0.3s;
+  transform-origin: center;
+  pointer-events: none;
+}
+
+.mob-hamburger.is-open span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+.mob-hamburger.is-open span:nth-child(2) {
+  opacity: 0;
+}
+.mob-hamburger.is-open span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+/* Overlay */
+.mob-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 99997;
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+}
+
+.mob-overlay.is-open {
+  display: block;
+}
+
+/* ══════════════════════════════════════════════════════════
+   MOBILE  ≤ 768px
+   ══════════════════════════════════════════════════════════ */
+@media screen and (max-width: 768px) {
+
+  /* ── BIG HAMMER: contain everything ───────────────────── */
+  *:not(script):not(style) {
+    max-width: 100vw !important;
+    /* Don't set min-width:0 here — too broad, breaks flex children */
+  }
+
+  /* ── NAV ───────────────────────────────────────────────── */
+  nav,
+  header > nav,
+  body > nav,
+  .navbar,
+  header {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+    max-width: 100vw !important;
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    padding: 0.75rem 1rem !important;
+    z-index: 99998 !important;
+    background: #080808 !important;
+  }
+
+  .mob-hamburger {
+    display: flex !important;
+  }
+
+  /* ── NAV DRAWER (the <ul> in nav) ─────────────────────── */
+  nav ul,
+  header ul,
+  .navbar ul {
+    position: fixed !important;
+    top: 0 !important;
+    right: -110% !important;          /* start off-screen */
+    bottom: 0 !important;
+    width: 72vw !important;
+    max-width: 270px !important;
+    height: 100% !important;
+    margin: 0 !important;
+    padding: 4.5rem 1.25rem 2rem !important;
+    list-style: none !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0 !important;
+    background: #0d0d0d !important;
+    border-left: 1px solid rgba(0, 255, 157, 0.25) !important;
+    z-index: 99999 !important;
+    overflow-y: auto !important;
+    transition: right 0.32s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    /* Kill any transform the existing CSS applied */
+    transform: none !important;
+  }
+
+  nav ul.mob-open,
+  header ul.mob-open,
+  .navbar ul.mob-open {
+    right: 0 !important;
+  }
+
+  nav ul li,
+  header ul li {
+    list-style: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    width: 100% !important;
+  }
+
+  nav ul li a,
+  header ul li a {
+    display: block !important;
+    padding: 0.8rem 0.25rem !important;
+    font-size: 0.95rem !important;
+    color: #b0b0b0 !important;
+    text-decoration: none !important;
+    border-bottom: 1px solid #1e1e1e !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    transition: color 0.2s !important;
+  }
+
+  nav ul li a:hover,
+  nav ul li a:focus {
+    color: #00ff9d !important;
+  }
+
+  /* Hide the "available for work" badge that was in the nav
+     if it's inside the <ul> — it was taking up space where
+     hamburger should be */
+  /* (keep it visible but push it left of hamburger) */
+
+  /* ── FIX: HERO TITLE overflowing (Screenshot 2) ────────
+     "LIKETOSWEEP" is a giant h1 — target h1 directly       */
+  h1 {
+    font-size: clamp(1.6rem, 9vw, 3.5rem) !important;
+    line-height: 1.1 !important;
+    overflow: hidden !important;
+    word-break: break-word !important;
+    white-space: normal !important;
+    max-width: 100% !important;
+  }
+
+  h2 {
+    font-size: clamp(1.2rem, 6vw, 2rem) !important;
+    word-break: break-word !important;
+  }
+
+  h3 {
+    font-size: clamp(1rem, 4.5vw, 1.5rem) !important;
+    word-break: break-word !important;
+  }
+
+  /* ── FIX: ALL BODY TEXT clipping (Screenshot 2) ────────
+     Every paragraph, span, and text container            */
+  p, li, span, a, blockquote, label, td, th {
+    overflow-wrap: break-word !important;
+    word-break: break-word !important;
+    white-space: normal !important;
+    max-width: 100% !important;
+  }
+
+  /* ── FIX: HERO SECTION layout ───────────────────────── */
+  /* Top section: push content below fixed nav */
+  section:first-of-type,
+  .hero,
+  #home {
+    padding-top: 5rem !important;
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+    overflow: hidden !important;
+  }
+
+  /* Floating decorative dot/cursor element in hero */
+  section:first-of-type [class*="cursor"],
+  section:first-of-type [class*="dot"],
+  section:first-of-type [class*="circle"],
+  #home [class*="cursor"],
+  #home [class*="dot"],
+  #home [class*="circle"],
+  .hero [class*="cursor"],
+  .hero [class*="dot"],
+  .hero [class*="circle"] {
+    display: none !important;
+  }
+
+  /* ── FIX: TERMINAL overflowing (Screenshot 3) ──────── */
+  pre,
+  code,
+  .terminal,
+  .terminal-window,
+  [class*="terminal"],
+  [class*="Terminal"] {
+    position: relative !important;
+    left: auto !important;
+    right: auto !important;
+    top: auto !important;
+    transform: none !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    overflow-x: auto !important;
+    font-size: clamp(0.6rem, 2.5vw, 0.8rem) !important;
+    margin: 1rem 0 0 0 !important;
+  }
+
+  /* ── FIX: PROJECTS GRID 2-column (Screenshot 1) ─────
+     Force EVERY grid-like container to single column.
+     Targets by CSS property, not class name.            */
+
+  /* Any element using CSS grid → 1 column */
+  [style*="grid-template-columns"],
+  [style*="display: grid"],
+  [style*="display:grid"] {
+    grid-template-columns: 1fr !important;
+    display: grid !important;
+  }
+
+  /* Catch grid/flex containers by common class patterns */
+  [class*="grid"],
+  [class*="Grid"],
+  [class*="cards"],
+  [class*="Cards"],
+  [class*="projects"],
+  [class*="Projects"],
+  [class*="skills"],
+  [class*="Skills"],
+  [class*="row"],
+  [class*="Row"],
+  [class*="columns"],
+  [class*="Columns"],
+  [class*="wrapper"],
+  [class*="container"] > div,       /* generic containers */
+  section > div > div {              /* deep generic catch */
+    grid-template-columns: 1fr !important;
+    /* Don't override display here — only if it IS a grid */
+  }
+
+  /* Any element that IS a grid (detected by display:grid) */
+  /* This catches grids whose class names we don't know */
+  /* We must apply it broadly */
+  div {
+    /* Don't blanket-override, but ensure no min-width */
+    min-width: 0 !important;
+  }
+
+  /* ── FIX: PROJECT CARDS layout ──────────────────────── */
+  [class*="card"],
+  [class*="Card"],
+  [class*="project"],
+  [class*="Project"],
+  [class*="item"],
+  [class*="Item"] {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+
+  /* Card titles that break mid-word (RECON-TOOLKIT etc) */
+  [class*="card"] h1,
+  [class*="card"] h2,
+  [class*="card"] h3,
+  [class*="card"] h4,
+  [class*="project"] h1,
+  [class*="project"] h2,
+  [class*="project"] h3 {
+    font-size: clamp(0.9rem, 4vw, 1.3rem) !important;
+    word-break: break-word !important;
+    hyphens: auto !important;
+    overflow-wrap: break-word !important;
+  }
+
+  /* Tag pills inside cards — wrap instead of overflow */
+  [class*="tag"],
+  [class*="Tag"],
+  [class*="badge"],
+  [class*="Badge"],
+  [class*="pill"],
+  [class*="chip"] {
+    white-space: nowrap !important;
+    font-size: 0.7rem !important;
+  }
+
+  /* Tag container — let it wrap */
+  [class*="tags"],
+  [class*="Tags"],
+  [class*="badges"],
+  [class*="tech"],
+  [class*="stack"] {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 0.35rem !important;
+    max-width: 100% !important;
+  }
+
+  /* ── ALL SECTIONS: padding + overflow ─────────────────── */
+  section {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+    overflow: hidden !important;
+    max-width: 100vw !important;
+  }
+
+  /* ── STATS: 50+ / 3+ / 10+ / ∞ ─────────────────────── */
+  [class*="stat"],
+  [class*="Stat"],
+  [class*="counter"],
+  [class*="Counter"],
+  [class*="metric"],
+  [class*="count"] {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow: hidden !important;
+  }
+
+  /* ── ROADMAP / TIMELINE: single column ──────────────── */
+  [class*="timeline"],
+  [class*="Timeline"],
+  [class*="roadmap"],
+  [class*="Roadmap"],
+  [class*="milestones"],
+  [class*="path"] {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 1rem !important;
+    width: 100% !important;
+  }
+
+  [class*="timeline"] > *,
+  [class*="roadmap"] > *,
+  [class*="milestones"] > * {
+    width: 100% !important;
+    position: relative !important;
+    left: auto !important;
+    right: auto !important;
+    transform: none !important;
+    grid-column: 1 / -1 !important;
+  }
+
+  /* ── CONTACT: stack vertically ───────────────────────── */
+  [class*="contact"] [class*="cards"],
+  [class*="contact"] ul,
+  [class*="contact"] [class*="grid"] {
+    flex-direction: column !important;
+  }
+
+  /* Forms */
+  input, textarea, select {
+    font-size: 16px !important;  /* prevents iOS zoom */
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  /* ── FOOTER ────────────────────────────────────────────── */
+  footer {
+    text-align: center !important;
+    padding: 1.5rem 1rem !important;
+  }
+
+  footer ul,
+  footer div {
+    justify-content: center !important;
+    flex-wrap: wrap !important;
+    gap: 0.75rem !important;
+  }
+
+  /* Touch targets */
+  a, button {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════
+   SMALL PHONE  ≤ 480px
+   ══════════════════════════════════════════════════════════ */
+@media screen and (max-width: 480px) {
+
+  h1 {
+    font-size: clamp(1.4rem, 8vw, 2.5rem) !important;
+  }
+
+  section {
+    padding-left: 0.75rem !important;
+    padding-right: 0.75rem !important;
+  }
+
+  /* Stats */
+  [class*="stat"],
+  [class*="counter"],
+  [class*="metric"] {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
